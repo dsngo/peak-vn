@@ -16,46 +16,16 @@ import { Link } from 'react-router-dom';
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const styles: React.CSSProperties = {
-  list: {
-    width: '15vw',
-  },
-  fullList: {
-    width: 'auto',
-  },
-  root: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    float: 'right',
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  iconSizeMenu: {
-    fontSize: 36,
-  },
-  iconSize: {
-    fontSize: 24,
-  },
-  appBar: {
-    background: 'linear-gradient(45deg, #37474f 450%, #62727b 95%)',
-    // borderRadius: 2,
-    // width: '96.5vw',
+  footer: {
+    background: 'linear-gradient(45deg, #37474f 45%, #62727b 95%)',
     padding: '.1vw',
-    margin: '0 1vw',
+    margin: '0 1vw 1vw',
     color: 'white',
-    // border: 2,
-    // color: 'white',
-    // height: 48,
-    // margin: '0 10px',
-    // padding: '0 30px',
-    // boxShadow: '0 3px 5px 2px #1a0f354d',
+    height: '30vh'
   },
 };
 
-class Navbar extends React.Component {
+class Footer extends React.Component {
   state = {
     right: false,
   };
@@ -70,7 +40,7 @@ class Navbar extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Paper className={classes.appBar}>
+        <Paper className={classes.footer}>
           <Toolbar>
             <Typography variant="title" className={classes.flex}>
               <Link to="/">
@@ -119,8 +89,8 @@ class Navbar extends React.Component {
     );
   }
 }
-Navbar.propTypes = {
+Footer.propTypes = {
   classes: PropTypes.shape({}).isRequired,
 };
 
-export default connect()(withStyles(styles)(Navbar));
+export default connect()(withStyles(styles)(Footer));
