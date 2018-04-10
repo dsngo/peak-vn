@@ -1,0 +1,35 @@
+{
+  "ignore": "node_modules",
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "server": {
+      "plugins": [
+        "dynamic-import-node",
+        "syntax-dynamic-import",
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  },
+  "minified": true,
+  "comments": false,
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"]
+        },
+        "loose": true,
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    ["dynamic-import-webpack"],
+    ["transform-class-properties"],
+    ["react-hot-loader/babel"]
+  ]
+}
