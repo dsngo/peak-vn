@@ -1,16 +1,12 @@
 import FiberNewIcon from '@material-ui/icons/FiberNew';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Avatar from 'material-ui/Avatar';
 import ButtonBase from 'material-ui/ButtonBase';
 // import Button from 'material-ui/Button';
-import Card, { CardContent, CardHeader, CardMedia } from 'material-ui/Card';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
-import IconButton from 'material-ui/IconButton';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
-import red from 'material-ui/colors/red';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 // import { clearSubmitStatus } from "./redux/actionCreators";
@@ -18,12 +14,23 @@ import connect from 'react-redux/es/connect/connect';
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
 import data from '../data';
-import { capFirstChar } from '../ultis';
+import ProductCard from './ProductCard';
 
 const styles: { [key: string]: React.CSSProperties } = {
+  // const styles: { [key: string]: React.CSSProperties } = theme => ({
   root: {
     padding: '.1vw',
     margin: '0.2vw 1.1vw',
+  },
+  image: {
+    '&:hover': {
+      zIndex: 1,
+      opacity: 0.75,
+      transition: 'all .5s ease',
+    },
+  },
+  media: {
+    height: 175,
   },
   pickup: {
     textAlign: 'center',
@@ -47,31 +54,21 @@ const styles: { [key: string]: React.CSSProperties } = {
     maxWidth: 200,
     maxHeight: 250,
   },
-  productCard: {
-    width: 200,
-    height: 325,
-  },
-  media: {
-    height: 175,
-  },
   puCard: {
     display: 'inline',
   },
-  image: {
-    '&:hover': {
-      zIndex: 1,
-      opacity: 0.75,
-      transition: 'all .5s ease',
-    },
+  carousel: {
+    // borderRadius: 5,
+    // overflow: 'hidden'
+  },
+  imgCrop: {
+    // borderRadius: 2
   },
   gridContainer: {
     marginBottom: 5,
   },
   listInfo: {
     padding: '0 16px',
-  },
-  avatar: {
-    backgroundColor: red[500],
   },
 };
 const Landing = ({ classes }) => (
@@ -136,7 +133,7 @@ const Landing = ({ classes }) => (
     <List className={classes.listInfo} component="nav">
       {data.newsInfo.map(e => (
         <ListItem
-          button
+          button={!!e.url}
           key={e.priority}
           component={Link}
           to={e.url}
@@ -161,47 +158,7 @@ const Landing = ({ classes }) => (
       spacing={8}
     >
       {data.productList.map(e => (
-        <Grid key={e.productId} item xl={3}>
-          <ButtonBase
-            focusRipple
-            className={classes.image}
-            component={Link}
-            to={`/items/${e.productId}`}
-            style={{ outline: 'none', textDecoration: 'none' }}
-          >
-            <Card className={classes.productCard}>
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="Recipe" className={classes.avatar}>
-                    New
-                  </Avatar>
-                }
-                action={
-                  <IconButton>
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={e.productName}
-                subheader={e.listingDate}
-              />
-              <CardMedia
-                className={classes.media}
-                image={e.productImg}
-                title={e.productName}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="button" component="p">
-                  {e.productPrice}
-                </Typography>
-                <Typography variant="caption" component="p">{`${
-                  e.productCode
-                } - ${capFirstChar(e.productGender)}'s ${
-                  e.productDescription.prefix
-                } - ${capFirstChar(e.productVariable[0])}`}</Typography>
-              </CardContent>
-            </Card>
-          </ButtonBase>
-        </Grid>
+        <ProductCard key={e.productId} {...{ productItem: e }} />
       ))}
     </Grid>
   </Paper>

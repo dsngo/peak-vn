@@ -20,7 +20,7 @@ const developmentPort = 8080;
 
 module.exports = (env = {}) => {
   console.log(env, process.env.NODE_ENV); // eslint-disable-line
-  const devtool = !env.production && 'source-map';
+  const devtool = env.development && 'source-map';
   const stats = {
     colors: true,
     reasons: true,

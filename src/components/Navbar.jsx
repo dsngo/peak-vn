@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import List from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
-// import Button from 'material-ui/Button';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
@@ -14,6 +14,8 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import data from '../data';
+import AppBar from 'material-ui/AppBar';
 
 const styles: React.CSSProperties = {
   list: {
@@ -39,19 +41,24 @@ const styles: React.CSSProperties = {
   iconSize: {
     fontSize: 24,
   },
-  appBar: {
-    background: 'linear-gradient(45deg, #37474f 450%, #62727b 95%)',
-    // borderRadius: 2,
-    // width: '96.5vw',
-    padding: '.1vw',
-    margin: '0 1vw',
+  titleLink: {
+    outline: 'none !important',
+    textDecoration: 'none !important',
+  },
+  titleText: {
+    // color: 'white !important',
+    fontWeight: 'bold',
     color: 'white',
-    // border: 2,
-    // color: 'white',
-    // height: 48,
-    // margin: '0 10px',
-    // padding: '0 30px',
-    // boxShadow: '0 3px 5px 2px #1a0f354d',
+    // fontSize: 16,
+    // margin: '0 5px',
+    // padding: '0 5px',
+  },
+  appBar: {
+    background: 'linear-gradient(45deg, #37474f 35%, #62727b 95%)',
+    borderRadius: 2,
+    boxShadow: '0 3px 5px 2px #1a0f354d',
+    margin: '0.2vw 1.1vw',
+    width: 'auto',
   },
 };
 
@@ -70,17 +77,32 @@ class Navbar extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Paper className={classes.appBar}>
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="title" className={classes.flex}>
-              <Link to="/">
-                <img
-                  style={{ width: '30%' }}
-                  src="https://base-ec2.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif"
-                  alt=""
-                />
-              </Link>
+            <Typography variant="title" component={Link} to="/">
+              <img
+                style={{ width: '40%' }}
+                src="https://base-ec2.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif"
+                alt=""
+              />
             </Typography>
+            {data.navBar.map(e => (
+              <Button
+                key={e.id}
+                size="large"
+                className={classes.titleLink}
+                component={Link}
+                to={e.url}
+              >
+                <Typography
+                  variant="headline"
+                  // color="inherit"
+                  className={classes.titleText}
+                >
+                  {e.title.toUpperCase()}
+                </Typography>
+              </Button>
+            ))}
             <IconButton
               className={classes.cartButton}
               color="inherit"
@@ -98,7 +120,7 @@ class Navbar extends React.Component {
               <MenuIcon style={styles.iconSizeMenu} />
             </IconButton>
           </Toolbar>
-        </Paper>
+        </AppBar>
         <Drawer
           anchor="right"
           open={this.state.right}
