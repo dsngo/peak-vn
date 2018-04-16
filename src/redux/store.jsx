@@ -6,6 +6,7 @@ const store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunk),
+    process.env.NODE_ENV === 'development' &&
     typeof window === 'object' &&
     typeof window.devToolsExtension !== 'undefined'
       ? window.devToolsExtension()

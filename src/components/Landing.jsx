@@ -13,8 +13,10 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
-import data from '../data';
+import data, { productList } from '../data';
 import ProductCard from './ProductCard';
+
+
 
 const styles: { [key: string]: React.CSSProperties } = {
   // const styles: { [key: string]: React.CSSProperties } = theme => ({
@@ -49,6 +51,9 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   divider: {
     marginTop: 5,
+  },
+  puImg: {
+    height: 75,
   },
   card: {
     maxWidth: 200,
@@ -107,7 +112,7 @@ const Landing = ({ classes }) => (
           >
             <Card className={classes.card}>
               <CardMedia
-                className={classes.media}
+                className={classes.puImg}
                 image={e.imgLink}
                 title={e.imgDescription}
               />
@@ -157,7 +162,7 @@ const Landing = ({ classes }) => (
       justify="center"
       spacing={8}
     >
-      {data.productList.map(e => (
+      {productList.map(e => (
         <ProductCard key={e.productId} {...{ productItem: e }} />
       ))}
     </Grid>

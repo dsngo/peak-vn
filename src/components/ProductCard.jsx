@@ -9,7 +9,7 @@ import red from 'material-ui/colors/red';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { capFirstChar } from '../ultis';
+import { capFirstChar, formatDate, resizeImg } from '../ultis';
 
 const styles: { [key: string]: React.CSSProperties } = {
   avatar: {
@@ -23,7 +23,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
   },
   media: {
-    height: 175,
+    height: 120,
   },
   productCard: {
     width: 200,
@@ -36,7 +36,7 @@ const ProductCard = ({ classes, productItem }) => (
       focusRipple
       className={classes.image}
       component={Link}
-      to={`/items/${productItem.productCode}`}
+      to={`/items/${productItem.productId}`}
       style={{ outline: 'none', textDecoration: 'none' }}
     >
       <Card className={classes.productCard}>
@@ -51,23 +51,23 @@ const ProductCard = ({ classes, productItem }) => (
               <MoreVertIcon />
             </IconButton>
           }
-          title={productItem.productName}
-          subheader={productItem.listingDate}
+          title={productItem.productCode}
+          subheader={formatDate(productItem.listingDate)}
         />
         <CardMedia
           className={classes.media}
-          image={productItem.productImg}
+          image={resizeImg(productItem.productImg[0].url, 200)}
           title={productItem.productName}
         />
         <CardContent>
           <Typography gutterBottom variant="button" component="p">
             {productItem.productPrice}
           </Typography>
-          <Typography variant="caption" component="p">{`${
-            productItem.productCode
-          } - ${capFirstChar(productItem.productGender)}'s ${
-            productItem.productDescription.prefix
-          } - ${capFirstChar(productItem.productVariable[0])}`}</Typography>
+          <Typography variant="caption" component="p">{`${capFirstChar(
+            productItem.productGender
+          )}'s ${productItem.productCategory} - ${capFirstChar(
+            productItem.productColor
+          )}`}</Typography>
         </CardContent>
       </Card>
     </ButtonBase>

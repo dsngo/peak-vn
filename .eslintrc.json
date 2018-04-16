@@ -24,7 +24,10 @@
       { "singleQuote": true, "trailingComma": "es5" }
     ],
     "react/prop-types": 0,
+    "react/no-multi-comp": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-array-index-key": 1,
+    "import/first": 1,
     "linebreak-style": 1,
     "jsx-a11y/alt-text": 0,
     "jsx-a11y/anchor-is-valid": [ "error", {
@@ -42,12 +45,12 @@
           "constructor",
           "state",
           "static-methods",
+          "lifecycle",
           "everything-else",
           "/^on.+$/",
           "/^handle.+$/",
           "/^helper.+$/",
           "/^render.+$/",
-          "lifecycle",
           "render"
         ]
       }

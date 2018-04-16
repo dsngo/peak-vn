@@ -20,7 +20,7 @@ const developmentPort = 8080;
 
 module.exports = (env = {}) => {
   console.log(env, process.env.NODE_ENV); // eslint-disable-line
-  const devtool = env.development && 'source-map';
+  const devtool = 'source-map';
   const stats = {
     colors: true,
     reasons: true,
@@ -34,6 +34,7 @@ module.exports = (env = {}) => {
     entry: {
       main: ['./src/index', './src/styles/index'],
     },
+    devtool,
     mode: 'development',
     stats,
     output: {
@@ -73,9 +74,9 @@ module.exports = (env = {}) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: devtool === 'source-map',
+                sourceMap: Boolean(env.development),
                 importLoaders: 1,
-                minimize: !!env.production,
+                minimize: Boolean(env.production),
               },
             },
             'sass-loader',
@@ -102,6 +103,7 @@ module.exports = (env = {}) => {
   if (env.production) {
     delete bundleConfig.devServer;
     delete bundleConfig.output.pathinfo;
+    delete bundleConfig.devtool;
     bundleConfig.mode = 'production';
     bundleConfig.watch = false;
     bundleConfig.output = {

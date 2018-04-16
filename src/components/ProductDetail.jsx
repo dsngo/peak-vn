@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
-import connect from 'react-redux/es/connect/connect';
-import { MenuItem } from 'material-ui/Menu';
-import TextField from 'material-ui/TextField';
-import data from '../data';
-import { InputAdornment } from 'material-ui/Input';
-import Button from 'material-ui/Button';
 import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
+import Button from 'material-ui/Button';
 import ButtonBase from 'material-ui/ButtonBase';
 import Divider from 'material-ui/Divider';
+import { InputAdornment } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+import { withStyles } from 'material-ui/styles';
+import React, { Component } from 'react';
+import connect from 'react-redux/es/connect/connect';
+import data, { productList } from '../data';
+// import productList from '../productList'
 import ProductCard from './ProductCard';
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -56,6 +57,8 @@ const styles: { [key: string]: React.CSSProperties } = {
   relatedItems: {
     margin: '1vw',
     padding: '1vw',
+    display: 'flex',
+    flexDirection: 'row',
   },
 };
 
@@ -78,25 +81,22 @@ class Product extends Component {
   render() {
     const { classes } = this.props;
     const { size, quantity, img } = this.state;
-    const product = data.productList.find(
-      e => e.productCode === this.props.match.productCode || 'P818PTL11'
+    const product = productList.find(
+      e => e.productId === this.props.match.params.productId
     );
-    const options = product.productDescription.sizes.map(e => e.toUpperCase());
+    const thumbImg = img || product.productImg[0].url;
+    const options = product.productSize.map(e => e.name.toUpperCase());
     return (
       <Paper className={classes.root}>
         <div className={classes.topPart}>
           <Paper className={classes.carousel}>
-            <img
-              className={classes.bigImg}
-              src={img || product.productImg}
-              alt=""
-            />
+            <img className={classes.bigImg} src={thumbImg} alt="" />
             <ButtonBase onClick={this.handleChangeImg}>
               <img className={classes.img} src={product.productImg} alt="" />
             </ButtonBase>
-            {product.productSamples.map((e, i) => (
+            {product.productImg.map((e, i) => (
               <ButtonBase key={i} onClick={this.handleChangeImg}>
-                <img className={classes.img} src={e} alt="" />
+                <img className={classes.img} src={e.url} alt="" />
               </ButtonBase>
             ))}
           </Paper>
@@ -144,20 +144,20 @@ class Product extends Component {
             </div>
             <Divider className={classes.margin} />
             <div className={classes.margin}>
-              {product.productDescription.sizeSpec.map((e, i) => (
+              {product.productSize.map((e, i) => (
                 <React.Fragment key={i}>
                   <Typography
                     className={classes.extra}
                     variant="title"
-                  >{`Size: ${e.size.toUpperCase()}`}</Typography>
-                  <Typography>{`Measurement: ${e.measure}`}</Typography>
+                  >{`Size: ${e.name.toUpperCase()}`}</Typography>
+                  <Typography>Measurement: cm</Typography>
                   <Typography>{`Spec: ${e.spec}`}</Typography>
                 </React.Fragment>
               ))}
             </div>
             <Divider className={classes.margin} />
             <div className={classes.margin}>
-              {product.productDescription.info.map((e, i) => (
+              {product.productFeature.map((e, i) => (
                 <Typography key={i} className={classes.extra}>
                   {e}
                 </Typography>
@@ -166,7 +166,7 @@ class Product extends Component {
           </Paper>
         </div>
         <Paper className={classes.relatedItems}>
-          {data.productList
+          {productList
             .filter(e => e.productCategory[0] === product.productCategory[0])
             .slice(0, 3)
             .map(e => (

@@ -1,23 +1,12 @@
 import React from 'react';
-import { AppContainer } from 'react-hot-loader';
 import { render } from 'react-dom';
-import App from './components/App';
+import App, { HotApp } from './components/App';
 
-const renderApp = () => render(<App />, document.getElementById('app'));
-const renderHot = Component =>
-  render(
-    <AppContainer>
-      <Component />
-    </AppContainer>,
-    document.getElementById('app')
-  );
-if (process.env.NODE_ENV === 'production') {
-  renderApp();
+const renderApp = Component =>
+  render(<Component />, document.getElementById('app'));
+
+if (process.env.NODE_ENV === 'development') {
+  renderApp(HotApp);
 } else {
-  renderHot(App);
-  if (module.hot) {
-    module.hot.accept('./components/App', () =>
-      renderHot(import('./components/App'))
-    );
-  }
+  renderApp(App);
 }
