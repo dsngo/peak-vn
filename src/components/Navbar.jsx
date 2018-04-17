@@ -4,12 +4,10 @@ import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import List from 'material-ui/List';
-import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import PropTypes from 'prop-types';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
@@ -63,14 +61,33 @@ const styles: React.CSSProperties = {
 };
 
 class Navbar extends React.Component {
+  props: {
+    classes: Object,
+  };
   state = {
     right: false,
+    width: 0,
+  };
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth });
   };
 
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open,
     });
+  };
+  logWidth = () => {
+    console.log(window.innerWidth);
+    console.log(window.innerHeight);
   };
 
   render() {
@@ -79,30 +96,27 @@ class Navbar extends React.Component {
       <React.Fragment>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="title" component={Link} to="/">
+            <Link to="/" className={classes.titleLink}>
               <img
-                style={{ width: '40%' }}
+                style={{ width: '65%' }}
                 src="https://base-ec2.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif"
                 alt=""
               />
-            </Typography>
-            {data.navBar.map(e => (
-              <Button
-                key={e.id}
-                size="large"
-                className={classes.titleLink}
-                component={Link}
-                to={e.url}
-              >
-                <Typography
-                  variant="headline"
-                  // color="inherit"
-                  className={classes.titleText}
+            </Link>
+            {this.state.width > 800 &&
+              data.navBar.map(e => (
+                <Button
+                  key={e.id}
+                  size="large"
+                  className={classes.titleLink}
+                  component={Link}
+                  to={e.url}
                 >
-                  {e.title.toUpperCase()}
-                </Typography>
-              </Button>
-            ))}
+                  <Typography variant="headline" className={classes.titleText}>
+                    {e.title.toUpperCase()}
+                  </Typography>
+                </Button>
+              ))}
             <IconButton
               className={classes.cartButton}
               color="inherit"
@@ -141,8 +155,9 @@ class Navbar extends React.Component {
     );
   }
 }
-Navbar.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-};
 
-export default connect()(withStyles(styles)(Navbar));
+const mapStateToProps = state => ({
+  cartItems: state.userCartItems,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Navbar));

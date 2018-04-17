@@ -10,9 +10,11 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import data, { productList } from '../data';
+import { productList } from '../data';
 // import productList from '../productList'
 import ProductCard from './ProductCard';
+import { resizeImg } from '../ultis';
+import { addCartItem, updateCartItem } from '../redux/actionCreators';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -66,16 +68,33 @@ class Product extends Component {
   props: {
     match: Object,
     classes: Object,
+    addCartItem: Function,
+    userCartItem: Array,
   };
   state = {
     size: 'S',
     quantity: 1,
     img: '',
   };
+  handleAddCartItem = product => () => {
+    const item = {
+      itemId: product.productId,
+      itemCode: product.productCode,
+      itemImg: product.productImg[0].url,
+      itemCategory: product.productCategory,
+      itemQuantity: this.state.quantity,
+      totalPrice: this.state.quantity * product.productPrice,
+    };
+    this.props.addCartItem(item);
+  };
   handleChangeInfo = name => event => {
     this.setState({
       [name]: event.target.value,
     });
+  };
+  handleChangeQuantity = maxQuantity => event => {
+    const quantity = Math.min(Math.max(event.target.value, 1), maxQuantity);
+    this.setState({ quantity });
   };
   handleChangeImg = event => this.setState({ img: event.target.src });
   render() {
@@ -84,19 +103,24 @@ class Product extends Component {
     const product = productList.find(
       e => e.productId === this.props.match.params.productId
     );
-    const thumbImg = img || product.productImg[0].url;
+    const thumbnails = product.productImg.map(e => e.url);
+    const bigImg = thumbnails.includes(img) ? img : product.productImg[0].url;
     const options = product.productSize.map(e => e.name.toUpperCase());
     return (
       <Paper className={classes.root}>
         <div className={classes.topPart}>
           <Paper className={classes.carousel}>
-            <img className={classes.bigImg} src={thumbImg} alt="" />
+            <img className={classes.bigImg} src={bigImg} alt="" />
             <ButtonBase onClick={this.handleChangeImg}>
-              <img className={classes.img} src={product.productImg} alt="" />
+              <img
+                className={classes.img}
+                src={resizeImg(product.productImg, 900)}
+                alt=""
+              />
             </ButtonBase>
-            {product.productImg.map((e, i) => (
+            {thumbnails.map((e, i) => (
               <ButtonBase key={i} onClick={this.handleChangeImg}>
-                <img className={classes.img} src={e.url} alt="" />
+                <img className={classes.img} src={e} alt="" />
               </ButtonBase>
             ))}
           </Paper>
@@ -126,7 +150,7 @@ class Product extends Component {
             <TextField
               label="Please select your quantity"
               value={quantity}
-              onChange={this.handleChangeInfo('quantity')}
+              onChange={this.handleChangeQuantity(99)}
               type="number"
               className={classes.menuItem}
               InputProps={{
@@ -137,23 +161,34 @@ class Product extends Component {
               margin="normal"
             />
             <div className={classes.margin}>
-              <Button variant="raised" color="primary" size="large">
+              <Button
+                onClick={this.handleAddCartItem(product)}
+                variant="raised"
+                color="primary"
+                size="large"
+              >
                 ADD TO CARD
                 <AddShoppingCart />
               </Button>
             </div>
             <Divider className={classes.margin} />
             <div className={classes.margin}>
-              {product.productSize.map((e, i) => (
-                <React.Fragment key={i}>
-                  <Typography
-                    className={classes.extra}
-                    variant="title"
-                  >{`Size: ${e.name.toUpperCase()}`}</Typography>
-                  <Typography>Measurement: cm</Typography>
-                  <Typography>{`Spec: ${e.spec}`}</Typography>
-                </React.Fragment>
-              ))}
+              {product.productSize.map((e, i) => {
+                const spec = Object.keys(e).slice(1);
+                return (
+                  <React.Fragment key={i}>
+                    <Typography
+                      className={classes.extra}
+                      variant="title"
+                    >{`Size: ${e.name.toUpperCase()}`}</Typography>
+                    <Typography>Measurement: cm</Typography>
+                    {}
+                    <Typography>
+                      Spec: {spec.map(s => `[${s}: ${e[s]}] `)}
+                    </Typography>
+                  </React.Fragment>
+                );
+              })}
             </div>
             <Divider className={classes.margin} />
             <div className={classes.margin}>
@@ -167,7 +202,7 @@ class Product extends Component {
         </div>
         <Paper className={classes.relatedItems}>
           {productList
-            .filter(e => e.productCategory[0] === product.productCategory[0])
+            .filter(e => e.productCode === product.productCode)
             .slice(0, 3)
             .map(e => (
               <ProductCard key={e.productId} {...{ productItem: e }} />
@@ -178,4 +213,15 @@ class Product extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(Product));
+const mapStateToProps = state => ({
+  userCartItem: state.userCartItem,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addCartItem: item => dispatch(addCartItem(item)),
+  updateCartItem: item => dispatch(updateCartItem(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(Product)
+);

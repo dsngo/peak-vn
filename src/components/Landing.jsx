@@ -15,8 +15,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
 import data, { productList } from '../data';
 import ProductCard from './ProductCard';
-
-
+import { resizeImg } from '../ultis';
 
 const styles: { [key: string]: React.CSSProperties } = {
   // const styles: { [key: string]: React.CSSProperties } = theme => ({
@@ -87,7 +86,12 @@ const Landing = ({ classes }) => (
     >
       {data.carouselImg.map(e => (
         <div key={e.id} className={classes.carousel}>
-          <img className={classes.imgCrop} key={e.id} src={e.url} alt="" />
+          <img
+            className={classes.imgCrop}
+            key={e.id}
+            src={resizeImg(e.url, 1200)}
+            alt=""
+          />
         </div>
       ))}
     </Carousel>
@@ -113,7 +117,7 @@ const Landing = ({ classes }) => (
             <Card className={classes.card}>
               <CardMedia
                 className={classes.puImg}
-                image={e.imgLink}
+                image={resizeImg(e.imgLink, 200)}
                 title={e.imgDescription}
               />
               <CardContent>

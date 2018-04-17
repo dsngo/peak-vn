@@ -5,41 +5,41 @@ const data = {
     {
       id: 14422,
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-slider1_5ac33f367c2ef.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-slider1_5ac33f367c2ef.jpg',
     },
     {
       id: 25125,
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-slider3_5ac4a8aa184d7.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-slider3_5ac4a8aa184d7.jpg',
     },
     {
       id: 2123,
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-slider5_5ac4a76cd0be8.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-slider5_5ac4a76cd0be8.jpg',
     },
     {
       id: 12354,
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-slider2_5ac33f36c6f3c.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-slider2_5ac33f36c6f3c.jpg',
     },
     {
       id: 5125,
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-slider4_5ac4aa0c080ff.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-slider4_5ac4aa0c080ff.jpg',
     },
   ],
   pickUpImg: [
     {
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_1_5ac6ea2d6a80d.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_1_5ac6ea2d6a80d.jpg',
     },
     {
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_2_5ac6ea2db16b6.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_2_5ac6ea2db16b6.jpg',
     },
     {
       url:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_3_5ac6ea2e08c29.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_3_5ac6ea2e08c29.jpg',
     },
   ],
   newsInfo: [
@@ -76,9 +76,9 @@ const data = {
       productId: 106611181,
       productCode: 'P818LSL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['light blue', 'gray', 'olive', 'black'],
@@ -126,9 +126,9 @@ const data = {
       productId: 106621702,
       productCode: 'P818PTL11',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['pink', 'Olive', 'Gray', 'Black'],
@@ -176,9 +176,9 @@ const data = {
       productId: 106621703,
       productCode: 'P818PTL11',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['pink', 'Olive', 'Gray', 'Black'],
@@ -226,9 +226,9 @@ const data = {
       productId: 106621704,
       productCode: 'P818PTL11',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['pink', 'Olive', 'Gray', 'Black'],
@@ -276,9 +276,9 @@ const data = {
       productId: 106621705,
       productCode: 'P818PTL11',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['pink', 'Olive', 'Gray', 'Black'],
@@ -326,9 +326,9 @@ const data = {
       productId: 106621706,
       productCode: 'P818PTL11',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'women',
       productVariable: ['pink', 'Olive', 'Gray', 'Black'],
@@ -376,9 +376,9 @@ const data = {
       productId: 1066224974,
       productCode: 'P818PTL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['gray', 'olive', 'black'],
@@ -426,9 +426,9 @@ const data = {
       productId: 1066224986,
       productCode: 'P818PTL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['gray', 'olive', 'black'],
@@ -476,9 +476,9 @@ const data = {
       productId: 106622499,
       productCode: 'P818PTL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['gray', 'olive', 'black'],
@@ -526,9 +526,9 @@ const data = {
       productId: 106622498,
       productCode: 'P818PTL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['gray', 'olive', 'black'],
@@ -576,9 +576,9 @@ const data = {
       productId: 106622497,
       productCode: 'P818PTL01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['gray', 'olive', 'black'],
@@ -626,9 +626,9 @@ const data = {
       productId: 106610536,
       productCode: 'P818PTM01',
       productSamples: [
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
-        'https://base-ec2.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
+        'https://base-ec2if.akamaized.net/images/item/origin/1f0948740d9a03e91f10007415ab88ae.jpg',
       ],
       productGender: 'men',
       productVariable: ['olive', 'gray', 'black'],
@@ -674,7 +674,7 @@ const data = {
   pickUpData: [
     {
       imgLink:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_1_5ac6ea2d6a80d.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_1_5ac6ea2d6a80d.jpg',
       imgDescription: 'Facebook',
       title: 'facebook',
       description: 'We opened official Facebook page of "Peaks Eight"!',
@@ -682,7 +682,7 @@ const data = {
     },
     {
       imgLink:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_2_5ac6ea2db16b6.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_2_5ac6ea2db16b6.jpg',
       imgDescription: 'Twitter',
       title: 'twitter',
       description: 'We opened official Twitter page of "Peaks Eight"!',
@@ -690,7 +690,7 @@ const data = {
     },
     {
       imgLink:
-        'https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_3_5ac6ea2e08c29.jpg',
+        'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-pick_img_3_5ac6ea2e08c29.jpg',
       imgDescription: 'Instagram',
       title: 'instagram',
       description: 'We opened official Instagram page of "Peaks Eight"!',
