@@ -20,9 +20,17 @@ function handleAddCartItem(state, action) {
     : state.map(
         e =>
           e.itemId === action.addedItem.itemId
-            ? { ...e, quantity: e.quantity + action.addedItem.quantity }
+            ? {
+                ...e,
+                itemQuantity: e.itemQuantity + action.addedItem.itemQuantity,
+              }
             : e
       );
+}
+function handleUpdateCartItem(state, action) {
+  return state.map(
+    e => (e.itemId === action.itemId ? [...e, ([action.key]: action.value)] : e)
+  );
 }
 const siteStatus = (state = '', action) => {
   switch (action.type) {
@@ -39,10 +47,7 @@ const userCartItems = (state = [], action) => {
     case 'ADD_CART_ITEM':
       return handleAddCartItem(state, action);
     case 'UPDATE_CART_ITEM':
-      return state.map(
-        e =>
-          e.itemId === action.itemId ? [...e, ([action.key]: action.value)] : e
-      );
+      return handleUpdateCartItem(state, action);
     case 'REMOVE_CART_ITEM':
       return state.filter(e => e.itemId !== action.itemId);
     default:

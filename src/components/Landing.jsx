@@ -142,11 +142,11 @@ const Landing = ({ classes }) => (
     <List className={classes.listInfo} component="nav">
       {data.newsInfo.map(e => (
         <ListItem
-          button={!!e.url}
+          button={Boolean(e.url)}
           key={e.priority}
           component={Link}
           to={e.url}
-          target="_blank"
+          target={e.url && '_blank'}
           style={{ outline: 'none', textDecoration: 'none' }}
         >
           <ListItemIcon>

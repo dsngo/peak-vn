@@ -17,9 +17,11 @@ export const removeCartItem = itemId => ({ type: 'REMOVE_CART_ITEM', itemId });
 
 export const fetchDatabase = userID => {
   const fetchedData = [];
+  const siteStatus = ''
   return {
     type: 'FETCH_DATABASE',
     fetchedData,
+    siteStatus,
   };
 };
 export const saveDatabase = userId => {

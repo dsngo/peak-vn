@@ -1,19 +1,19 @@
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import List from 'material-ui/List';
 import Toolbar from 'material-ui/Toolbar';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 import data from '../data';
-import AppBar from 'material-ui/AppBar';
+import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const styles: React.CSSProperties = {
   list: {
@@ -63,6 +63,7 @@ const styles: React.CSSProperties = {
 class Navbar extends React.Component {
   props: {
     classes: Object,
+    cartItems: Array,
   };
   state = {
     right: false,
@@ -70,7 +71,7 @@ class Navbar extends React.Component {
   };
 
   componentDidMount() {
-    this.updateWindowDimensions();
+    // this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }
   componentWillUnmount() {
@@ -92,6 +93,7 @@ class Navbar extends React.Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.props.cartItems)
     return (
       <React.Fragment>
         <AppBar position="static" className={classes.appBar}>
