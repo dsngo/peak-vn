@@ -13,7 +13,7 @@ import connect from 'react-redux/es/connect/connect';
 import { productList } from '../data';
 // import productList from '../productList'
 import ProductCard from './ProductCard';
-import { resizeImg } from '../ultis';
+import { resizeImg, formatMoney } from '../ultis';
 import { addCartItem, updateCartItem } from '../redux/actionCreators';
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -83,7 +83,7 @@ class Product extends Component {
       itemImg: product.productImg[0].url,
       itemCategory: product.productCategory,
       itemQuantity: this.state.quantity,
-      totalPrice: this.state.quantity * product.productPrice,
+      itemPrice: product.productPrice,
     };
     this.props.addCartItem(item);
   };
@@ -126,7 +126,11 @@ class Product extends Component {
           </Paper>
           <Paper className={classes.infoTab}>
             <Typography variant="title">
-              {product.productPrice * quantity}
+              {formatMoney(
+                product.productPrice *
+                  this.props.currencyRate.sellRate *
+                  quantity
+              )}
             </Typography>
             <TextField
               select
@@ -167,7 +171,7 @@ class Product extends Component {
                 color="primary"
                 size="large"
               >
-                ADD TO CARD
+                ADD TO CART
                 <AddShoppingCart />
               </Button>
             </div>
@@ -215,6 +219,7 @@ class Product extends Component {
 
 const mapStateToProps = state => ({
   userCartItem: state.userCartItem,
+  currencyRate: state.currencyRates[0],
 });
 
 const mapDispatchToProps = dispatch => ({

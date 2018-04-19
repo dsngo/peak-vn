@@ -9,7 +9,8 @@
     "g:pull": "git pull origin master",
     "g:force": "git add . & git commit -am \"updates\" & git pull & git push",
     "dev": "SET NODE_ENV=development&&webpack-dev-server --env.development",
-    "p:i": "rm -rf node_modules/ yarn.lock yarn-error.log && yarn install"
+    "p:i": "rm -rf node_modules/ yarn.lock yarn-error.log && yarn install",
+    "test": "node test.js"
   },
   "dependencies": {
     "@material-ui/icons": "^1.0.0-beta.42",
@@ -17,6 +18,7 @@
     "faker": "^4.1.0",
     "fast-csv": "^2.4.1",
     "material-ui": "^1.0.0-beta.41",
+    "node-fetch": "^2.1.2",
     "preact": "^8.2.7",
     "preact-compat": "^3.18.0",
     "prop-types": "^15.6.1",
@@ -27,7 +29,8 @@
     "react-responsive-carousel": "^3.1.35",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

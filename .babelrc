@@ -20,7 +20,7 @@
       "env",
       {
         "targets": {
-          "browsers": ["last 2 versions", "safari >= 7"]
+          "browsers": ["last 2 Chrome versions"]
         },
         "loose": true,
         "modules": false

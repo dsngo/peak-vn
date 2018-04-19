@@ -1,4 +1,5 @@
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import ButtonBase from 'material-ui/ButtonBase';
 import Card, { CardContent, CardHeader, CardMedia } from 'material-ui/Card';
@@ -9,7 +10,7 @@ import red from 'material-ui/colors/red';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { capFirstChar, formatDate, resizeImg } from '../ultis';
+import { capFirstChar, formatDate, resizeImg, formatMoney } from '../ultis';
 
 const styles: { [key: string]: React.CSSProperties } = {
   avatar: {
@@ -27,10 +28,10 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   productCard: {
     width: 200,
-    height: 325,
+    height: 275,
   },
 };
-const ProductCard = ({ classes, productItem }) => (
+const ProductCard = ({ classes, productItem, currencyRate }) => (
   <Grid item xl={3}>
     <ButtonBase
       focusRipple
@@ -61,7 +62,7 @@ const ProductCard = ({ classes, productItem }) => (
         />
         <CardContent>
           <Typography gutterBottom variant="button" component="p">
-            {productItem.productPrice}
+            {formatMoney(productItem.productPrice * currencyRate.sellRate)}
           </Typography>
           <Typography variant="caption" component="p">{`${capFirstChar(
             productItem.productGender
@@ -74,4 +75,8 @@ const ProductCard = ({ classes, productItem }) => (
   </Grid>
 );
 
-export default withStyles(styles)(ProductCard);
+const mapStateToProps = state => ({
+  currencyRate: state.currencyRates[0],
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(ProductCard));

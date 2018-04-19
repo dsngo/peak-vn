@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js dev
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js test
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Rhaps\bin;C:\Python27;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Users\Rhaps\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\Program Files\Microsoft SQL Server\110\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn;C:\Program Files\Microsoft SQL Server\110\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\ManagementStudio;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn;D:\WebDev\php-7.2.0;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_152\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin;C:\Users\Rhaps\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Heroku\bin;D:\sdk\platform-tools;C:\Users\Rhaps\AppData\Local\Yarn\bin
@@ -25,7 +25,8 @@ npm manifest:
       "g:pull": "git pull origin master",
       "g:force": "git add . & git commit -am \"updates\" & git pull & git push",
       "dev": "SET NODE_ENV=development&&webpack-dev-server --env.development",
-      "p:i": "rm -rf node_modules/ yarn.lock yarn-error.log && yarn install"
+      "p:i": "rm -rf node_modules/ yarn.lock yarn-error.log && yarn install",
+      "test": "node test.js"
     },
     "dependencies": {
       "@material-ui/icons": "^1.0.0-beta.42",
@@ -33,6 +34,7 @@ npm manifest:
       "faker": "^4.1.0",
       "fast-csv": "^2.4.1",
       "material-ui": "^1.0.0-beta.41",
+      "node-fetch": "^2.1.2",
       "preact": "^8.2.7",
       "preact-compat": "^3.18.0",
       "prop-types": "^15.6.1",
@@ -43,7 +45,8 @@ npm manifest:
       "react-responsive-carousel": "^3.1.35",
       "react-router-dom": "^4.2.2",
       "redux": "^3.7.2",
-      "redux-thunk": "^2.2.0"
+      "redux-thunk": "^2.2.0",
+      "xml2js": "^0.4.19"
     },
     "devDependencies": {
       "babel-core": "^6.26.0",
@@ -5059,6 +5062,10 @@ Lockfile:
       encoding "^0.1.11"
       is-stream "^1.0.1"
   
+  node-fetch@^2.1.2:
+    version "2.1.2"
+    resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
+  
   node-forge@0.7.1:
     version "0.7.1"
     resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.1.tgz#9da611ea08982f4b94206b3beb4cc9665f20c300"
@@ -6742,7 +6749,7 @@ Lockfile:
       neo-async "^2.5.0"
       pify "^3.0.0"
   
-  sax@~1.2.1:
+  sax@>=0.6.0, sax@~1.2.1:
     version "1.2.4"
     resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   
@@ -7999,6 +8006,17 @@ Lockfile:
       async-limiter "~1.0.0"
       safe-buffer "~5.1.0"
   
+  xml2js@^0.4.19:
+    version "0.4.19"
+    resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
+    dependencies:
+      sax ">=0.6.0"
+      xmlbuilder "~9.0.1"
+  
+  xmlbuilder@~9.0.1:
+    version "9.0.7"
+    resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+  
   xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
@@ -8137,7 +8155,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: C:\WINDOWS\system32\cmd.exe
-  Arguments: /d /s /c SET NODE_ENV=development&&webpack-dev-server --env.development
+  Arguments: /d /s /c node test.js
   Directory: D:\Desktop\peak-vn
   Output:
   

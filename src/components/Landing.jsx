@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import data, { productList } from '../data';
 import ProductCard from './ProductCard';
 import { resizeImg } from '../ultis';
+import { fetchCurrencyRate } from '../redux/actionCreators';
 
 const styles: { [key: string]: React.CSSProperties } = {
   // const styles: { [key: string]: React.CSSProperties } = theme => ({
@@ -166,9 +167,7 @@ const Landing = ({ classes }) => (
       justify="center"
       spacing={8}
     >
-      {productList.map(e => (
-        <ProductCard key={e.productId} {...{ productItem: e }} />
-      ))}
+      {productList.map(e => <ProductCard key={e.productId} productItem={e} />)}
     </Grid>
   </Paper>
 );

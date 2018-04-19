@@ -705,13 +705,13 @@ const data = {
     },
     {
       id: 2,
-      title: 'category',
-      url: '/category',
+      title: 'about',
+      url: '/about',
     },
     {
       id: 3,
-      title: 'about',
-      url: '/about',
+      title: 'category',
+      url: '/category',
     },
     {
       id: 4,

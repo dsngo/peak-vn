@@ -304,7 +304,6 @@ class UserControl extends Component {
   // };
 
   handleOpenDialog = (isOpen, data) => {
-    console.log(data);
     this.setState({ isDialogOpen: isOpen });
     if (data) this.setState({ dialogData: data });
   };
@@ -363,7 +362,6 @@ class UserControl extends Component {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} />

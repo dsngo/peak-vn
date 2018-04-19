@@ -11,6 +11,10 @@ import Landing from './Landing';
 import Navbar from './Navbar';
 import ProductDetail from './ProductDetail';
 import UserControl from './UserControl';
+import Checkout from './Checkout';
+import Category from './Category';
+import About from './About';
+import Contact from './Contact'
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +35,10 @@ const App = () => (
         <Route exact path="/" component={Landing} />
         <Route path="/items/:productId" component={ProductDetail} />
         <Route exact path="/admin/orderdetail" component={UserControl} />
+        <Route path="/checkout" component={Checkout} />
+        <Route path="/category/:categoryId" component={Category} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/contact" component={Contact} />
         {/* <Route path="/collections" component={Collection} />
               <Route
                 path="/products/:id"

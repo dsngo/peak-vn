@@ -2,6 +2,7 @@ import combineReducers from 'redux/es/combineReducers';
 
 // const DEFAULT_STATE = {
 //   siteStatus: '',
+//   currencyRates: [{currencyCode: 'JPY', sellRate: '216.91'}],
 //   userCartItems: [
 //     {
 //       itemId: 123,
@@ -10,7 +11,7 @@ import combineReducers from 'redux/es/combineReducers';
 //       itemImg: '',
 //       itemCategory: '',
 //       itemQuantity: 1,
-//       totalPrice: '',
+//       itemPrice: '',
 //     },
 //   ],
 // };
@@ -29,13 +30,24 @@ function handleAddCartItem(state, action) {
 }
 function handleUpdateCartItem(state, action) {
   return state.map(
-    e => (e.itemId === action.itemId ? [...e, ([action.key]: action.value)] : e)
+    e => (e.itemId === action.itemId ? { ...e, [action.key]: action.val } : e)
   );
 }
 const siteStatus = (state = '', action) => {
   switch (action.type) {
     case 'UPDATE_SITE_STATUS':
       return action.newStatus;
+    default:
+      return state;
+  }
+};
+const currencyRates = (
+  state = [{ currencyCode: 'JPY', sellRate: 216.91 }],
+  action
+) => {
+  switch (action.type) {
+    case 'FETCH_CURRENCY_RATE':
+      return [...action.currencyRates];
     default:
       return state;
   }
@@ -55,4 +67,4 @@ const userCartItems = (state = [], action) => {
   }
 };
 
-export default combineReducers({ siteStatus, userCartItems });
+export default combineReducers({ siteStatus, currencyRates, userCartItems });
