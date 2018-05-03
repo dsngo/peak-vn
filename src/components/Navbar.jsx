@@ -1,22 +1,23 @@
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import AppBar from 'material-ui/AppBar';
+import Badge from 'material-ui/Badge';
 import Button from 'material-ui/Button';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
-import List, { ListItem, ListItemText } from 'material-ui/List';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
-import data, { productList } from '../data';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import data from '../data';
+import { removeCartItem, updateCartItem } from '../redux/actionCreators';
 import { formatMoney } from '../ultis';
-import { updateCartItem, removeCartItem } from '../redux/actionCreators';
+import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const styles: React.CSSProperties = {
   list: {
@@ -56,12 +57,8 @@ const styles: React.CSSProperties = {
     },
   },
   titleText: {
-    // color: 'white !important',
     fontWeight: 'bold',
     color: 'white',
-    // fontSize: 16,
-    // margin: '0 5px',
-    // padding: '0 5px',
   },
   appBar: {
     background: 'linear-gradient(45deg, #37474f 35%, #62727b 95%)',
@@ -69,6 +66,9 @@ const styles: React.CSSProperties = {
     boxShadow: '0 3px 5px 2px #1a0f354d',
     margin: '0.2vw 1.1vw',
     width: 'auto',
+  },
+  infoText: {
+    float: 'right',
   },
 };
 
@@ -111,8 +111,15 @@ class Navbar extends React.Component {
     isCategoryDrawerOpen: false,
     isDialogOpen: false,
     width: 0,
+    cartItemBadge: 0,
   };
 
+  static getDerivedStateFromProps(nextP, PrevS) {
+    if (!nextP.cartItems) return null;
+    return {
+      cartItemBadge: nextP.cartItems.length,
+    };
+  }
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -155,34 +162,43 @@ class Navbar extends React.Component {
         <DialogTitle> User Cart Items </DialogTitle>
         <DialogContent>
           {cartItems.map(e => (
-            <div key={e.itemId}>
+            <div key={`${e.itemId}-${e.itemSize}`}>
               <img style={{ width: 60 }} src={e.itemImg} alt="" />
-              {`${e.itemId} - ${e.itemCode} - qty:${
-                e.itemQuantity
-              } - price: ${formatMoney(
-                e.itemQuantity * this.props.currencyRate.sellRate * e.itemPrice
-              )}`}
-              <button
-                onClick={this.handleUpdateCartItem(
-                  'decrease',
-                  e.itemId,
-                  e.itemQuantity
-                )}
-              >
-                -
-              </button>
-              <button
-                onClick={this.handleUpdateCartItem(
-                  'increase',
-                  e.itemId,
-                  e.itemQuantity
-                )}
-              >
-                +
-              </button>
-              <button onClick={this.handleUpdateCartItem('remove', e.itemId)}>
-                X
-              </button>
+              <div className={this.props.classes.infoText}>
+                <Typography>{`${e.itemGender}'s ${e.itemName}`}</Typography>
+                <Typography>
+                  {`Màu sắc/Size/Số lượng: ${e.itemColor}/${e.itemSize}/${
+                    e.itemQuantity
+                  } - Giá tiền: ${formatMoney(
+                    e.itemQuantity *
+                      this.props.currencyRate.sellRate *
+                      e.itemPrice
+                  )}`}
+                  <button
+                    onClick={this.handleUpdateCartItem(
+                      'decrease',
+                      e.itemId,
+                      e.itemQuantity
+                    )}
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={this.handleUpdateCartItem(
+                      'increase',
+                      e.itemId,
+                      e.itemQuantity
+                    )}
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={this.handleUpdateCartItem('remove', e.itemId)}
+                  >
+                    X
+                  </button>
+                </Typography>
+              </div>
             </div>
           ))}
           <div style={{ float: 'right' }}>
@@ -230,7 +246,7 @@ class Navbar extends React.Component {
     </Drawer>
   );
   renderCategoryDrawer = () => {
-    const category = productList.reduce(
+    const category = this.props.productList.reduce(
       (a, c) =>
         a.includes(c.productCode.substr(4, 3))
           ? a
@@ -244,7 +260,38 @@ class Navbar extends React.Component {
         onClose={this.toggleModal('isCategoryDrawerOpen', false)}
       >
         <List onClick={this.toggleModal('isCategoryDrawerOpen', false)}>
-          {category.map(e => cLink(e))}
+          {data.navBar.map(e => (
+            <React.Fragment key={e.id}>
+              <ListItem button component={Link} to={e.url}>
+                <ListItemText primary={e.title.toUpperCase()} />
+              </ListItem>
+              {e.title === 'category' && (
+                <List style={{ paddingLeft: 15 }}>
+                  {category.map(e2 => cLink(e2))}
+                </List>
+              )}
+            </React.Fragment>
+          ))}
+          <ListItem>
+            <IconButton
+              target="_blank"
+              href="https://www.facebook.com/PeaksEight"
+            >
+              <ListItemIcon>
+                <img src="/assets/icons/facebook-f.svg" alt="" />
+              </ListItemIcon>
+            </IconButton>
+            <IconButton target="_blank" href="https://twitter.com/peaks_eight">
+              <ListItemIcon>
+                <img src="/assets/icons/twitter.svg" alt="" />
+              </ListItemIcon>
+            </IconButton>
+            <IconButton target="_blank" href="http://instagram.com/peaks_eight">
+              <ListItemIcon>
+                <img src="/assets/icons/instagram.svg" alt="" />
+              </ListItemIcon>
+            </IconButton>
+          </ListItem>
         </List>
       </Drawer>
     );
@@ -287,21 +334,23 @@ class Navbar extends React.Component {
               aria-label="Cart"
               onClick={this.toggleModal('isDialogOpen', true)}
             >
-              <ShoppingCart style={styles.iconSize} />
+              <Badge badgeContent={this.state.cartItemBadge} color="error">
+                <ShoppingCart style={styles.iconSize} />
+              </Badge>
             </IconButton>
             {this.state.width <= 800 && (
               <IconButton
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="Menu"
-                onClick={this.toggleModal('isMenuDrawerOpen', true)}
+                onClick={this.toggleModal('isCategoryDrawerOpen', true)}
               >
                 <MenuIcon style={styles.iconSizeMenu} />
               </IconButton>
             )}
           </Toolbar>
         </AppBar>
-        {this.renderMenuDrawer()}
+        {/* {this.renderMenuDrawer()} */}
         {this.renderDialog()}
         {this.renderCategoryDrawer()}
       </React.Fragment>
@@ -312,6 +361,7 @@ class Navbar extends React.Component {
 const mapStateToProps = state => ({
   cartItems: state.userCartItems,
   currencyRate: state.currencyRates[0],
+  productList: state.productList,
 });
 const mapDispathToProps = dispatch => ({
   updateCartItem: (i, v, k) => dispatch(updateCartItem(i, v, k)),

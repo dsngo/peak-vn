@@ -1,8 +1,8 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
-import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
   root: {
@@ -11,12 +11,10 @@ const styles = theme => ({
     margin: '0.2vw 1.1vw',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   textField: {
-    // marginLeft: theme.spacing.unit,
-    // marginRight: theme.spacing.unit,
     width: '50vw',
   },
   menu: {
@@ -40,12 +38,14 @@ class Contact extends React.Component {
     });
   };
   handleSubmitForm = () => {
-    if (Object.values(this.state).include('')) {
+    if (Object.values(this.state).includes('')) {
+      // console.log('not ok');
       this.props.updateSiteStatus('Xin vui lòng điền đầy đủ thông tin!');
     } else {
+      // console.log('ok');
       this.props.saveOrderToDatabase();
     }
-  }
+  };
   render() {
     const { classes } = this.props;
 
@@ -53,7 +53,7 @@ class Contact extends React.Component {
       <Paper className={classes.root}>
         <TextField
           label="Họ và tên"
-          error={!this.state.name}
+          required={!this.state.name}
           className={classes.textField}
           value={this.state.name}
           onChange={this.handleChange('name')}
@@ -61,8 +61,9 @@ class Contact extends React.Component {
           margin="normal"
         />
         <TextField
+          type="email"
+          required={!this.state.email}
           label="Địa chỉ email"
-          error={!this.state.email}
           className={classes.textField}
           value={this.state.email}
           onChange={this.handleChange('email')}
@@ -71,7 +72,7 @@ class Contact extends React.Component {
         />
         <TextField
           label="Số điện thoại"
-          error={!this.state.phone}
+          required={!this.state.phone}
           className={classes.textField}
           value={this.state.phone}
           onChange={this.handleChange('phone')}
@@ -80,7 +81,7 @@ class Contact extends React.Component {
         />
         <TextField
           label="Chủ đề"
-          error={!this.state.topic}
+          required={!this.state.topic}
           className={classes.textField}
           value={this.state.topic}
           onChange={this.handleChange('topic')}
@@ -91,6 +92,7 @@ class Contact extends React.Component {
           label="Câu hỏi"
           multiline
           rows={7}
+          required={!this.state.question}
           rowsMax="10"
           value={this.state.question}
           onChange={this.handleChange('question')}
@@ -98,6 +100,14 @@ class Contact extends React.Component {
           helperText={!this.state.question && 'Thông tin bắt buộc'}
           margin="normal"
         />
+        <Button
+          variant="raised"
+          color="primary"
+          to="/checkout"
+          onClick={this.handleSubmitForm}
+        >
+          SUBMIT
+        </Button>
       </Paper>
     );
   }

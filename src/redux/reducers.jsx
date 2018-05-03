@@ -1,26 +1,41 @@
 import combineReducers from 'redux/es/combineReducers';
 
-// const DEFAULT_STATE = {
-//   siteStatus: '',
-//   currencyRates: [{currencyCode: 'JPY', sellRate: '216.91'}],
-//   userCartItems: [
-//     {
-//       itemId: 123,
-//       itemCode: '',
-//       itemName: '',
-//       itemImg: '',
-//       itemCategory: '',
-//       itemQuantity: 1,
-//       itemPrice: '',
-//     },
-//   ],
-// };
+const DEFAULT_STATE = {
+  siteStatus: '',
+  currencyRates: [{ currencyCode: 'JPY', sellRate: '216.91' }],
+  userCartItems: [
+    {
+      itemId: 123,
+      itemCode: '',
+      itemName: '',
+      itemImg: '',
+      itemCategory: '',
+      itemQuantity: 1,
+      itemPrice: '',
+    },
+  ],
+  orderInfo: {
+    orderUser: '5addaefedd8a213de0d0eaf7',
+    orderDate: '',
+    orderId: '',
+    orderName: '',
+    orderAddress: '',
+    orderPhone: '',
+    orderTotalPrice: 0,
+    orderPaymentType: '',
+    orderItems: [],
+    orderStatus: 'Pending',
+  },
+};
 function handleAddCartItem(state, action) {
-  return state.findIndex(e => e.itemId === action.addedItem.itemId) === -1
+  const foundIndex = state.findIndex(e => e.itemId === action.addedItem.itemId);
+  return foundIndex === -1 ||
+    state[foundIndex].itemSize !== action.addedItem.itemSize
     ? [...state, action.addedItem]
     : state.map(
         e =>
-          e.itemId === action.addedItem.itemId
+          e.itemId === action.addedItem.itemId &&
+          e.itemSize === action.addedItem.itemSize
             ? {
                 ...e,
                 itemQuantity: e.itemQuantity + action.addedItem.itemQuantity,
@@ -62,9 +77,24 @@ const userCartItems = (state = [], action) => {
       return handleUpdateCartItem(state, action);
     case 'REMOVE_CART_ITEM':
       return state.filter(e => e.itemId !== action.itemId);
+    case 'CLEAR_CART_ITEM':
+      return [];
+    default:
+      return state;
+  }
+};
+const productList = (state = [], action) => {
+  switch (action.type) {
+    case 'FETCH_PRODUCT_LIST':
+      return [...action.productList];
     default:
       return state;
   }
 };
 
-export default combineReducers({ siteStatus, currencyRates, userCartItems });
+export default combineReducers({
+  siteStatus,
+  currencyRates,
+  userCartItems,
+  productList,
+});

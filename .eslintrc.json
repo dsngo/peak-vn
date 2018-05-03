@@ -27,6 +27,7 @@
     "react/no-multi-comp": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": 1,
+    "no-underscore-dangle": 0,
     "import/first": 1,
     "linebreak-style": 1,
     "jsx-a11y/alt-text": 0,

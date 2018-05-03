@@ -14,7 +14,9 @@ import UserControl from './UserControl';
 import Checkout from './Checkout';
 import Category from './Category';
 import About from './About';
-import Contact from './Contact'
+import Contact from './Contact';
+import CompletePayment from './CompletePayment';
+import AllProduct from './AllProduct'
 
 const theme = createMuiTheme({
   palette: {
@@ -37,8 +39,10 @@ const App = () => (
         <Route exact path="/admin/orderdetail" component={UserControl} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/category/:categoryId" component={Category} />
+        <Route exact path="/category" component={AllProduct} />
         <Route exact path="/about" component={About} />
         <Route exact path="/contact" component={Contact} />
+        <Route exact path="/complete" component={CompletePayment} />
         {/* <Route path="/collections" component={Collection} />
               <Route
                 path="/products/:id"

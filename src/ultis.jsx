@@ -20,3 +20,46 @@ export function formatMoney(number) {
     .toFixed(0)
     .replace(/(\d)(?=(\d{3})+$)/g, '$1,')} VND`;
 }
+
+export const SERVER_SETTING = {
+  protocol: 'http://',
+  url: 'localhost',
+  port: 3000,
+};
+
+export const loadState = () => {
+  try {
+    const serializedState = sessionStorage.getItem('peakVnState');
+    const sessionProductList = sessionStorage.getItem('peakVnProductList');
+    if (serializedState == null) {
+      if (sessionProductList == null) {
+        return undefined;
+      }
+      return JSON.parse(sessionProductList);
+    }
+    return {
+      ...JSON.parse(serializedState),
+      ...JSON.parse(sessionProductList),
+    };
+  } catch (e) {
+    return undefined;
+  }
+};
+
+export const saveState = state => {
+  try {
+    const serializedState = JSON.stringify(state);
+    sessionStorage.setItem('peakVnState', serializedState);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const saveLocalState = state => {
+  try {
+    const serializedState = JSON.stringify(state);
+    sessionStorage.setItem('peakVnProductList', serializedState);
+  } catch (e) {
+    console.log(e);
+  }
+};

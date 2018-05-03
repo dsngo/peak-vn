@@ -1,94 +1,119 @@
-import MenuIcon from '@material-ui/icons/Menu';
-import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import Divider from 'material-ui/Divider';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import List from 'material-ui/List';
+import ButtonBase from 'material-ui/ButtonBase';
 import Paper from 'material-ui/Paper';
-import Toolbar from 'material-ui/Toolbar';
-// import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
-import { Link } from 'react-router-dom';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
 const styles: React.CSSProperties = {
   footer: {
+    display: 'flex',
+    flexDirection: 'column',
     background: 'linear-gradient(45deg, #37474f 45%, #62727b 95%)',
     padding: '.1vw',
     margin: '0 1vw 1vw',
     color: 'white',
-    height: '30vh'
+    height: '30vh',
   },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  text: {
+    color: 'white',
+    marginLeft: 35,
+  },
+  div1: {
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    width: '40vw',
+  },
+  div2: {
+    marginTop: 15,
+    width: '40vw',
+  },
+  img: {
+    width: 250,
+    '&:hover': {
+      zIndex: 1,
+      opacity: 0.75,
+      transition: 'all .5s ease',
+    },
+  },
+  button: {
+    filter: 'invert(1)',
+    '&:hover': { filter: 'invert(.5)' },
+  },
+  copyRight: {
+    paddingTop: 15,
+    color: 'white',
+  },
+  text2: {
+    color: 'white'
+  }
 };
 
-class Footer extends React.Component {
-  state = {
-    right: false,
-  };
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <React.Fragment>
-        <Paper className={classes.footer}>
-          <Toolbar>
-            <Typography variant="title" className={classes.flex}>
-              <Link to="/">
-                <img
-                  style={{ width: '30%' }}
-                  src="https://base-ec2.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif"
-                  alt=""
-                />
-              </Link>
-            </Typography>
-            <IconButton
-              className={classes.cartButton}
-              color="inherit"
-              aria-label="Cart"
-              onClick={this.toggleDrawer('right', true)}
-            >
-              <ShoppingCart style={styles.iconSize} />
-            </IconButton>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-              onClick={this.toggleDrawer('right', true)}
-            >
-              <MenuIcon style={styles.iconSizeMenu} />
-            </IconButton>
-          </Toolbar>
-        </Paper>
-        <Drawer
-          anchor="right"
-          open={this.state.right}
-          onClose={this.toggleDrawer('right', false)}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('right', false)}
-            onKeyDown={this.toggleDrawer('right', false)}
+const Footer = ({ classes }) => (
+  <Paper className={classes.footer}>
+    <div className={classes.container}>
+      <div className={classes.div1}>
+        <ButtonBase href="http://tohshyu.co.jp/" target="_blank">
+          <img
+            className={classes.img}
+            src="https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-footlogo_5ac348523a214.jpg"
+            alt=""
+          />
+        </ButtonBase>
+        <Typography variant="title" className={classes.text}>
+          Tohsyu Trading Co.,Ltd
+        </Typography>
+      </div>
+      <div className={classes.div2}>
+        <Typography color="textSecondary">Privacy Policy</Typography>
+        <Typography>Act on Specified Commercial Transactions</Typography>
+        <div>
+          <IconButton
+            target="_blank"
+            href="https://www.facebook.com/PeaksEight"
           >
-            <List>{mailFolderListItems}</List>
-            <Divider />
-            <List>{otherMailFolderListItems}</List>
-          </div>
-        </Drawer>
-      </React.Fragment>
-    );
-  }
-}
+            <ListItemIcon>
+              <img
+                className={classes.button}
+                src="/assets/icons/facebook-f.svg"
+                alt=""
+              />
+            </ListItemIcon>
+          </IconButton>
+          <IconButton target="_blank" href="https://twitter.com/peaks_eight">
+            <ListItemIcon>
+              <img
+                className={classes.button}
+                src="/assets/icons/twitter.svg"
+                alt=""
+              />
+            </ListItemIcon>
+          </IconButton>
+          <IconButton target="_blank" href="http://instagram.com/peaks_eight">
+            <ListItemIcon>
+              <img
+                className={classes.button}
+                src="/assets/icons/instagram.svg"
+                alt=""
+              />
+            </ListItemIcon>
+          </IconButton>
+        </div>
+      </div>
+    </div>
+    <Typography align="center" className={classes.copyRight}>
+      Copyright © Peaks Eight Co.,Ltd. All Rights Reserved.
+    </Typography>
+  </Paper>
+);
 Footer.propTypes = {
   classes: PropTypes.shape({}).isRequired,
 };

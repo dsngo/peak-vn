@@ -1,25 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Provider from 'react-redux/es/components/Provider';
-import App from './components/App';
-import store from './redux/store';
-import reducers from './redux/reducers'
+import Root from './components/Root';
+import configureStore from './redux/configureStore';
+import reducers from './redux/reducers';
 
-const renderApp = Component =>
-  render(
-    <Provider store={store}>
-      <Component />
-    </Provider>,
-    document.getElementById('app')
-  );
+const store = configureStore();
+const renderApp = () =>
+  render(<Root store={store} />, document.getElementById('app'));
 
-renderApp(App);
-
+renderApp();
 if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
-    module.hot.accept('./components/App', () => {
-      renderApp(App);
-    });
+    module.hot.accept('./components/Root', renderApp);
     module.hot.accept('./redux/reducers', () => {
       store.replaceReducer(reducers);
     });

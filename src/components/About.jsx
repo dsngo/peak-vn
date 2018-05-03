@@ -1,20 +1,9 @@
-import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
-import Button from 'material-ui/Button';
-import ButtonBase from 'material-ui/ButtonBase';
-import Divider from 'material-ui/Divider';
-import { InputAdornment } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import { productList } from '../data';
-// import productList from '../productList'
-import ProductCard from './ProductCard';
-import { resizeImg, formatMoney } from '../ultis';
-import { addCartItem, updateCartItem } from '../redux/actionCreators';
+import { resizeImg } from '../ultis';
 
 const about = {
   imgUrl:

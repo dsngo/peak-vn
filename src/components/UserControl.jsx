@@ -29,87 +29,62 @@ import Dialog, {
 import Slide from 'material-ui/transitions/Slide';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
-
-let counter = 0;
-function createData(order, name, address, phone, totalPrice, paymentType) {
-  counter += 1;
-  return { id: counter, order, name, address, phone, totalPrice, paymentType };
-}
-function formatDate(date) {
-  const dateOptions = {
-    formatMatcher: 'basic',
-    day: '2-digit',
-    month: '2-digit',
-    year: '2-digit',
-  };
-  return new Date(date).toLocaleString('vi-VN', dateOptions)
-}
-
-const dataColumn = fakeOrders.map((e, i) => ({
-  id: i + 1,
-  date: formatDate(e.date),
-  order: Date.parse(e.date).toString(36),
-  name: e.name,
-  address: e.address,
-  phone: e.phone,
-  totalPrice: e.orderItems.reduce((a, n) => a + n.price * n.quantity, 0),
-  paymentType: e.paymentType,
-  status: 'Pending',
-  orderItems: e.orderItems,
-}));
+import { SERVER_SETTING } from '../ultis';
+import { updateOrderData } from '../redux/actionCreators';
+import { FormControl } from 'material-ui/Form'
 
 const columnData = [
   {
-    id: 'date',
+    id: 'orderDate',
     numeric: false,
     disablePadding: false,
     sortable: false,
     label: 'Order Date',
   },
   {
-    id: 'order',
+    id: 'orderId',
     numeric: false,
     disablePadding: false,
     sortable: true,
     label: 'Order Number',
   },
   {
-    id: 'name',
+    id: 'orderName',
     numeric: false,
     disablePadding: false,
     sortable: false,
     label: 'Client Name',
   },
   {
-    id: 'address',
+    id: 'orderAddress',
     numeric: false,
     disablePadding: false,
     sortable: false,
     label: 'Shipping Address',
   },
   {
-    id: 'phone',
+    id: 'orderPhone',
     numeric: false,
     disablePadding: false,
     sortable: false,
     label: 'Phone Number',
   },
   {
-    id: 'totalPrice',
+    id: 'orderTotalPrice',
     numeric: true,
     disablePadding: false,
     sortable: true,
     label: 'Price',
   },
   {
-    id: 'paymentType',
+    id: 'orderPaymentType',
     numeric: false,
     disablePadding: false,
     sortable: true,
     label: 'Payment',
   },
   {
-    id: 'status',
+    id: 'orderStatus',
     numeric: false,
     disablePadding: false,
     sortable: true,
@@ -124,7 +99,6 @@ class EnhancedTableHead extends Component {
 
   render() {
     const { order, orderBy } = this.props;
-
     return (
       <TableHead>
         <TableRow>
@@ -245,17 +219,28 @@ const styles: { [key: string]: React.CSSProperties } = {
 class UserControl extends Component {
   props: {
     classes: Object,
+    updateOrderData: Function,
   };
   state = {
     order: 'asc',
-    orderBy: 'order',
+    orderBy: 'orderId',
     selected: [],
-    data: dataColumn.sort((a, b) => (a.order < b.order ? -1 : 1)),
+    data: [],
     page: 0,
     rowsPerPage: 5,
     isDialogOpen: false,
     dialogData: {},
+    isSaving: false, // check if the server is savign data, and prevent any type of change. make sure it is a uniprocess
   };
+  componentDidMount() {
+    const { protocol, url, port } = SERVER_SETTING;
+    fetch(`${protocol}${url}:${port}/peak-vn/ecsite/order`)
+      .then(rs => rs.json())
+      .then(d => {
+        this.setState({ data: d.data.sort((a, b) => a.orderId - b.orderId) });
+      })
+      .catch(console.log);
+  }
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   handleRequestSort = (event, property) => {
@@ -274,35 +259,6 @@ class UserControl extends Component {
     this.setState({ data, order, orderBy });
   };
 
-  // handleSelectAllClick = (event, checked) => {
-  //   if (checked) {
-  //     this.setState({ selected: this.state.data.map(n => n.id) });
-  //     return;
-  //   }
-  //   this.setState({ selected: [] });
-  // };
-
-  // handleClick = (event, id) => {
-  //   const { selected } = this.state;
-  //   const selectedIndex = selected.indexOf(id);
-  //   let newSelected = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-
-  //   this.setState({ selected: newSelected });
-  // };
-
   handleOpenDialog = (isOpen, data) => {
     this.setState({ isDialogOpen: isOpen });
     if (data) this.setState({ dialogData: data });
@@ -315,16 +271,21 @@ class UserControl extends Component {
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
-  handleChangeStatus = id => event => {
+  handleChangeStatus = (id, objectId) => async event => {
     this.setState(pS => ({
       ...pS,
+      isSaving: true,
       data: pS.data.map(
-        e => (e.order === id ? { ...e, status: event.target.value } : e)
+        e => (e.orderId === id ? { ...e, orderStatus: event.target.value } : e)
       ),
     }));
+    await this.props.updateOrderData(objectId, {
+      orderStatus: event.target.value,
+    });
+    this.setState({ isSaving: false });
   };
   handleFindStatus = id =>
-    id ? this.state.data.find(e => e.order === id).status : '';
+    id ? this.state.data.find(e => e.orderId === id).orderStatus : '';
   renderDialog = () => {
     const { dialogData, isDialogOpen } = this.state;
     return (
@@ -334,23 +295,28 @@ class UserControl extends Component {
         onClose={() => this.handleOpenDialog(false)}
         style={{ float: 'right' }}
       >
-        <DialogTitle>{`Order Number: #${dialogData.order} - ${
-          dialogData.name
+        <DialogTitle>{`Order Number: #${dialogData.orderId} - ${
+          dialogData.orderName
         }`}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{dialogData.totalPrice}</DialogContentText>
-          <Select
-            value={this.handleFindStatus(dialogData.order)}
-            onChange={this.handleChangeStatus(dialogData.order)}
-          >
+          <DialogContentText>{dialogData.orderTotalPrice}</DialogContentText>
+          <FormControl disabled={this.state.isSaving}>
+            <Select
+              value={this.handleFindStatus(dialogData.orderId)}
+              onChange={this.handleChangeStatus(
+                dialogData.orderId,
+                dialogData._id
+              )}
+            >
             <MenuItem value="Pending">Pending</MenuItem>
             <MenuItem value="Finished">Finished</MenuItem>
           </Select>
+          </FormControl>
           {dialogData.orderItems &&
             dialogData.orderItems.map(e => (
               <div key={e.itemId}>
-                <img style={{ width: 60 }} src={e.image} alt="" />
-                {`${e.itemId} - ${e.itemCode} - qty:${e.quantity}`}
+                <img style={{ width: 60 }} src={e.itemImg} alt="" />
+                {`${e.itemId} - ${e.itemCode} - qty:${e.itemQuantity}`}
               </div>
             ))}
         </DialogContent>
@@ -362,8 +328,10 @@ class UserControl extends Component {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    console.log(this.state.isSaving);
     return (
       <Paper className={classes.root}>
+        <Button onClick={this.test}> test</Button>
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -379,7 +347,7 @@ class UserControl extends Component {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.orderId);
                   return (
                     <TableRow
                       hover
@@ -387,17 +355,17 @@ class UserControl extends Component {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={n.orderId}
                       selected={isSelected}
                     >
-                      <TableCell>{n.date}</TableCell>
-                      <TableCell>{n.order}</TableCell>
-                      <TableCell>{n.name}</TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell>{n.phone}</TableCell>
-                      <TableCell numeric>{n.totalPrice}</TableCell>
-                      <TableCell>{n.paymentType}</TableCell>
-                      <TableCell>{n.status}</TableCell>
+                      <TableCell>{n.orderDate}</TableCell>
+                      <TableCell>{n.orderId}</TableCell>
+                      <TableCell>{n.orderName}</TableCell>
+                      <TableCell>{n.orderAddress}</TableCell>
+                      <TableCell>{n.orderPhone}</TableCell>
+                      <TableCell numeric>{n.orderTotalPrice}</TableCell>
+                      <TableCell>{n.orderPaymentType}</TableCell>
+                      <TableCell>{n.orderStatus}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -429,4 +397,12 @@ class UserControl extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(UserControl));
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+  updateOrderData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(UserControl)
+);

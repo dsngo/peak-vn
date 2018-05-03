@@ -10,10 +10,10 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import { productList } from '../data';
+// import { productList } from '../data';
 // import productList from '../productList'
 import ProductCard from './ProductCard';
-import { resizeImg, formatMoney } from '../ultis';
+import { resizeImg, formatMoney, capFirstChar } from '../ultis';
 import { addCartItem, updateCartItem } from '../redux/actionCreators';
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -72,7 +72,7 @@ class Product extends Component {
     userCartItem: Array,
   };
   state = {
-    size: 'S',
+    size: '',
     quantity: 1,
     img: '',
   };
@@ -80,8 +80,12 @@ class Product extends Component {
     const item = {
       itemId: product.productId,
       itemCode: product.productCode,
-      itemImg: product.productImg[0].url,
       itemCategory: product.productCategory,
+      itemGender: capFirstChar(product.productGender),
+      itemImg: product.productImg[0].url,
+      itemName: product.productName,
+      itemColor: product.productColor,
+      itemSize: this.state.size,
       itemQuantity: this.state.quantity,
       itemPrice: product.productPrice,
     };
@@ -98,7 +102,7 @@ class Product extends Component {
   };
   handleChangeImg = event => this.setState({ img: event.target.src });
   render() {
-    const { classes } = this.props;
+    const { classes, productList } = this.props;
     const { size, quantity, img } = this.state;
     const product = productList.find(
       e => e.productId === this.props.match.params.productId
@@ -134,7 +138,7 @@ class Product extends Component {
             </Typography>
             <TextField
               select
-              label="Please select your size"
+              label="Vui lòng chọn kích thước"
               value={size}
               onChange={this.handleChangeInfo('size')}
               className={classes.menuItem}
@@ -152,7 +156,7 @@ class Product extends Component {
               ))}
             </TextField>
             <TextField
-              label="Please select your quantity"
+              label="Vui lòng chọn số lượng"
               value={quantity}
               onChange={this.handleChangeQuantity(99)}
               type="number"
@@ -165,7 +169,13 @@ class Product extends Component {
               margin="normal"
             />
             <div className={classes.margin}>
+              {!this.state.size && (
+                <Typography color="error" style={{margin: "5px 0"}}>
+                  Xin vui lòng chọn kích thước
+                </Typography>
+              )}
               <Button
+                disabled={!this.state.size}
                 onClick={this.handleAddCartItem(product)}
                 variant="raised"
                 color="primary"
@@ -184,11 +194,11 @@ class Product extends Component {
                     <Typography
                       className={classes.extra}
                       variant="title"
-                    >{`Size: ${e.name.toUpperCase()}`}</Typography>
-                    <Typography>Measurement: cm</Typography>
+                    >{`Kích thước: ${e.name.toUpperCase()}`}</Typography>
+                    <Typography>Đơn vị: cm</Typography>
                     {}
                     <Typography>
-                      Spec: {spec.map(s => `[${s}: ${e[s]}] `)}
+                      Số đo: {spec.map(s => `[${s}: ${e[s]}] `)}
                     </Typography>
                   </React.Fragment>
                 );
@@ -220,12 +230,13 @@ class Product extends Component {
 const mapStateToProps = state => ({
   userCartItem: state.userCartItem,
   currencyRate: state.currencyRates[0],
+  productList: state.productList,
 });
 
-const mapDispatchToProps = dispatch => ({
-  addCartItem: item => dispatch(addCartItem(item)),
-  updateCartItem: item => dispatch(updateCartItem(item)),
-});
+const mapDispatchToProps = {
+  addCartItem,
+  updateCartItem,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles)(Product)
