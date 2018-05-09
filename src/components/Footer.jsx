@@ -1,80 +1,99 @@
+import Button from 'material-ui/Button';
 import ButtonBase from 'material-ui/ButtonBase';
+import IconButton from 'material-ui/IconButton';
+import { ListItemIcon } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { resizeImg } from '../ultis';
 
-const styles: React.CSSProperties = {
+const styles: React.CSSProperties = theme => ({
   footer: {
     display: 'flex',
     flexDirection: 'column',
-    background: 'linear-gradient(45deg, #37474f 45%, #62727b 95%)',
+    background: `linear-gradient(45deg, ${theme.palette.primary.dark} 35%, ${
+      theme.palette.primary.main
+    } 95%)`,
     padding: '.1vw',
     margin: '0 1vw 1vw',
-    color: 'white',
-    height: '30vh',
+    color: theme.palette.primary.contrastText,
   },
   container: {
     display: 'flex',
     flexDirection: 'row',
+    flexGrow: 1,
+    justifyContent: 'space-around',
   },
   text: {
     color: 'white',
     marginLeft: 35,
   },
-  div1: {
-    marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
-    width: '40vw',
+  divLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    margin: 20,
+    // width: '40vw',
   },
-  div2: {
+  divRight: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     marginTop: 15,
     width: '40vw',
-  },
-  img: {
-    width: 250,
-    '&:hover': {
-      zIndex: 1,
-      opacity: 0.75,
-      transition: 'all .5s ease',
-    },
   },
   button: {
     filter: 'invert(1)',
     '&:hover': { filter: 'invert(.5)' },
   },
   copyRight: {
-    paddingTop: 15,
-    color: 'white',
+    display: 'block',
   },
   text2: {
-    color: 'white'
-  }
-};
+    color: 'white',
+  },
+});
 
 const Footer = ({ classes }) => (
   <Paper className={classes.footer}>
     <div className={classes.container}>
-      <div className={classes.div1}>
-        <ButtonBase href="http://tohshyu.co.jp/" target="_blank">
-          <img
-            className={classes.img}
-            src="https://base-ec2.akamaized.net/images/user/template/peaks8-official-ec/image-footlogo_5ac348523a214.jpg"
-            alt=""
-          />
-        </ButtonBase>
-        <Typography variant="title" className={classes.text}>
-          Tohsyu Trading Co.,Ltd
+      <div className={classes.divLeft}>
+        <img
+          style={{ margin: 5 }}
+          src={resizeImg(
+            'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-footlogo_5ac348523a214.jpg',
+            303
+          )}
+          alt=""
+        />
+        <Typography variant="title" align="center">
+          <Button
+            color="primary"
+            variant="raised"
+            href="http://tohshyu.co.jp/"
+            target="_blank"
+          >
+            Tohsyu Trading Co.,Ltd
+          </Button>
         </Typography>
       </div>
-      <div className={classes.div2}>
-        <Typography color="textSecondary">Privacy Policy</Typography>
-        <Typography>Act on Specified Commercial Transactions</Typography>
+      <div className={classes.divRight}>
+        <Typography color="inherit">
+          <ButtonBase
+            href="https://www.peaks8-online.shop/privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </ButtonBase>
+        </Typography>
+        <Typography color="inherit" align="left">
+          <ButtonBase href="https://www.peaks8-online.shop/law" target="_blank">
+            Act on Specified Commercial Transactions
+          </ButtonBase>
+        </Typography>
         <div>
           <IconButton
             target="_blank"
@@ -109,9 +128,11 @@ const Footer = ({ classes }) => (
         </div>
       </div>
     </div>
-    <Typography align="center" className={classes.copyRight}>
-      Copyright © Peaks Eight Co.,Ltd. All Rights Reserved.
-    </Typography>
+    <div className={classes.copyRight}>
+      <Typography align="center" color="inherit">
+        Copyright © Peaks Eight Co.,Ltd. All Rights Reserved.
+      </Typography>
+    </div>
   </Paper>
 );
 Footer.propTypes = {

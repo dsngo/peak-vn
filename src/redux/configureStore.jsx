@@ -1,23 +1,21 @@
 import throttle from 'lodash/throttle';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { loadLocalState, loadState, saveState } from '../ultis';
+import { loadState, saveState } from '../ultis';
 import rootReducer from './reducers';
-import { fetchProductList } from './actionCreators';
+
+const composeEnhancers =
+  process.env.NODE_ENV !== 'production' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose;
 
 const configureStore = () => {
   const persistedState = loadState();
   const store = createStore(
     rootReducer,
     persistedState,
-    compose(
-      applyMiddleware(thunk),
-      process.env.NODE_ENV === 'development' &&
-      typeof window === 'object' &&
-      typeof window.devToolsExtension !== 'undefined'
-        ? window.devToolsExtension()
-        : f => f
-    )
+    composeEnhancers(applyMiddleware(thunk))
   );
   store.subscribe(
     throttle(() => {

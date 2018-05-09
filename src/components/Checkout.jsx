@@ -13,8 +13,9 @@ import {
   clearCartItem,
   removeCartItem,
   updateCartItem,
+  saveOrderToDatabase,
 } from '../redux/actionCreators';
-import { SERVER_SETTING, formatDate, formatMoney } from '../ultis';
+import { formatDate, formatMoney } from '../ultis';
 
 const styles = theme => ({
   root: {
@@ -104,16 +105,16 @@ class Checkout extends React.Component {
   handleUpdateState = k => e => {
     this.setState({ [k]: e.target.value });
   };
-  handleUpdateCartItem = (action, i, q) => () => {
+  handleUpdateCartItem = (action, i, q, s) => () => {
     switch (action) {
       case 'decrease':
-        this.props.updateCartItem(i, 'itemQuantity', q - 1);
+        this.props.updateCartItem(i, 'itemQuantity', q - 1, s);
         return;
       case 'increase':
-        this.props.updateCartItem(i, 'itemQuantity', q + 1);
+        this.props.updateCartItem(i, 'itemQuantity', q + 1, s);
         return;
       case 'remove':
-        this.props.removeCartItem(i);
+        this.props.removeCartItem(i, s);
         break;
       default:
     }
@@ -122,7 +123,6 @@ class Checkout extends React.Component {
     this.setState({ paymentType });
   };
   handleCreateOrder = () => {
-    const { protocol, url, port } = SERVER_SETTING;
     const order = {
       orderUser: '5addaefedd8a213de0d0eaf7',
       orderDate: formatDate(this.date),
@@ -140,17 +140,7 @@ class Checkout extends React.Component {
       orderStatus: 'Pending',
     };
     this.props.clearCartItem();
-    fetch(`${protocol}${url}:${port}/peak-vn/ecsite/order/add-new-order`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(order),
-    })
-      .then(rs => rs.json())
-      .then(console.log)
-      .catch(console.log);
+    this.props.saveOrderToDatabase(order);
   };
   handleGetStepContent = () => {
     switch (this.state.activeStep) {
@@ -180,7 +170,8 @@ class Checkout extends React.Component {
             onClick={this.handleUpdateCartItem(
               'decrease',
               e.itemId,
-              e.itemQuantity
+              e.itemQuantity,
+              e.itemSize
             )}
           >
             -
@@ -189,12 +180,20 @@ class Checkout extends React.Component {
             onClick={this.handleUpdateCartItem(
               'increase',
               e.itemId,
-              e.itemQuantity
+              e.itemQuantity,
+              e.itemSize
             )}
           >
             +
           </button>
-          <button onClick={this.handleUpdateCartItem('remove', e.itemId)}>
+          <button
+            onClick={this.handleUpdateCartItem(
+              'remove',
+              e.itemId,
+              null,
+              e.itemSize
+            )}
+          >
             X
           </button>
         </div>
@@ -397,13 +396,14 @@ class Checkout extends React.Component {
 }
 const mapStateToProps = state => ({
   userCartItems: state.userCartItems,
-  currencyRate: state.currencyRates[0],
+  currencyRate: state.currencyRates.find(e => e.currencyCode === 'JPY'),
   orderInfo: state.orderInfo,
 });
 const mapDispatchToProps = {
   updateCartItem,
   removeCartItem,
   clearCartItem,
+  saveOrderToDatabase,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles)(Checkout)

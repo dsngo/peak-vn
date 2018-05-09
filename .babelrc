@@ -28,6 +28,7 @@
     ]
   ],
   "plugins": [
+    ["transform-runtime"],
     ["react-hot-loader/babel"],
     ["dynamic-import-webpack"],
     ["transform-class-properties"],

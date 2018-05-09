@@ -22,24 +22,34 @@ export function formatMoney(number) {
 }
 
 export const SERVER_SETTING = {
-  protocol: 'http://',
-  url: 'localhost',
-  port: 3000,
+  protocol: process.env.NODE_ENV !== 'development' ? 'https://' : 'http://',
+  url:
+    process.env.NODE_ENV !== 'development'
+      ? 'rj-peakvn-server.herokuapp.com'
+      : 'localhost:3000',
 };
 
 export const loadState = () => {
   try {
     const serializedState = sessionStorage.getItem('peakVnState');
     const sessionProductList = sessionStorage.getItem('peakVnProductList');
+    const sessionCurrencyRate = sessionStorage.getItem('peakVnCurrencyRate');
     if (serializedState == null) {
       if (sessionProductList == null) {
-        return undefined;
+        if (sessionCurrencyRate == null) {
+          return undefined;
+        }
+        return JSON.parse(sessionCurrencyRate);
       }
-      return JSON.parse(sessionProductList);
+      return {
+        ...JSON.parse(sessionProductList),
+        ...JSON.parse(sessionCurrencyRate),
+      };
     }
     return {
       ...JSON.parse(serializedState),
       ...JSON.parse(sessionProductList),
+      ...JSON.parse(sessionCurrencyRate),
     };
   } catch (e) {
     return undefined;
@@ -55,10 +65,18 @@ export const saveState = state => {
   }
 };
 
-export const saveLocalState = state => {
+export const saveProductList = state => {
   try {
     const serializedState = JSON.stringify(state);
     sessionStorage.setItem('peakVnProductList', serializedState);
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const saveCurrencyRate = state => {
+  try {
+    const serializedState = JSON.stringify(state);
+    sessionStorage.setItem('peakVnCurrencyRate', serializedState);
   } catch (e) {
     console.log(e);
   }

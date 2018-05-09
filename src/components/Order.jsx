@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-export default class  extends Component {
-  state = {  }
+export default class extends Component {
+  state = {};
   render() {
-    return (
-      
-    );
+    return <div />;
   }
 }

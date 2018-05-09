@@ -1,8 +1,10 @@
-import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import { withStyles } from 'material-ui/styles';
+import React from 'react';
+import { connect } from 'react-redux';
+import { addSiteStatus, saveContactToDatabase } from '../redux/actionCreators';
 
 const styles = theme => ({
   root: {
@@ -29,7 +31,6 @@ class Contact extends React.Component {
     email: '',
     topic: '',
     question: '',
-    finished: false,
   };
 
   handleChange = name => event => {
@@ -38,12 +39,18 @@ class Contact extends React.Component {
     });
   };
   handleSubmitForm = () => {
-    if (Object.values(this.state).includes('')) {
-      // console.log('not ok');
-      this.props.updateSiteStatus('Xin vui lòng điền đầy đủ thông tin!');
+    const contact = {
+      contactName: this.state.name,
+      contactPhone: this.state.phone,
+      contactEmail: this.state.email,
+      contactTopic: this.state.topic,
+      contactQuestion: this.state.question,
+      status: 'Unfinised',
+    }
+    if (Object.values(contact).includes('')) {
+      this.props.addSiteStatus('Xin vui lòng điền đầy đủ thông tin!');
     } else {
-      // console.log('ok');
-      this.props.saveOrderToDatabase();
+      this.props.saveContactToDatabase();
     }
   };
   render() {
@@ -113,4 +120,14 @@ class Contact extends React.Component {
   }
 }
 
-export default withStyles(styles)(Contact);
+const mapStateToProps = state => ({
+  siteStatus: state.siteStatus,
+});
+const mapDispatchToProps = {
+  addSiteStatus,
+  saveContactToDatabase,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(Contact)
+);

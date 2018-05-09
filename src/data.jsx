@@ -1,4 +1,4 @@
-export const productList = require('./productList.json');
+const productList = require('./productList.json');
 
 const data = {
   carouselImg: [
@@ -1394,3 +1394,4 @@ export const fakeOrders = [
 ];
 
 export default data;
+export { productList };

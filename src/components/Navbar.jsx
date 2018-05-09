@@ -4,73 +4,85 @@ import AppBar from 'material-ui/AppBar';
 import Badge from 'material-ui/Badge';
 import Button from 'material-ui/Button';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Snackbar from 'material-ui/Snackbar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
-import data from '../data';
-import { removeCartItem, updateCartItem } from '../redux/actionCreators';
-import { formatMoney } from '../ultis';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import { formatMoney, resizeImg } from '../ultis';
+// import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import {
+  updateCartItem,
+  removeCartItem,
+  addSiteStatus,
+  toggleSnackbar,
+} from '../redux/actionCreators';
 
-const styles: React.CSSProperties = {
-  list: {
-    width: '15vw',
+const navBar = [
+  {
+    id: 1,
+    title: 'home',
+    url: '/',
   },
-  fullList: {
-    width: 'auto',
+  {
+    id: 2,
+    title: 'about',
+    url: '/about',
   },
-  root: {
-    flexGrow: 1,
+  {
+    id: 3,
+    title: 'category',
+    url: '/category',
   },
-  flex: {
-    flex: 1,
+  {
+    id: 4,
+    title: 'contact',
+    url: '/contact',
   },
-  menuButton: {
-    float: 'right',
-    marginLeft: 10,
-    marginRight: 10,
-  },
+];
+
+const styles: React.CSSProperties = theme => ({
   iconSizeMenu: {
     fontSize: 36,
   },
   iconSize: {
     fontSize: 24,
   },
-  titleLink: {
-    outline: 'none !important',
-    textDecoration: 'none !important',
-    '&:hover': {
-      color: 'white',
-    },
-    '&:visited': {
-      color: 'white',
-    },
-    '&:active': {
-      color: 'white',
-    },
-  },
   titleText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: 'inherit',
   },
   appBar: {
-    background: 'linear-gradient(45deg, #37474f 35%, #62727b 95%)',
+    background: `linear-gradient(45deg, ${theme.palette.primary.dark} 35%, ${
+      theme.palette.primary.light
+    } 95%)`,
     borderRadius: 2,
     boxShadow: '0 3px 5px 2px #1a0f354d',
     margin: '0.2vw 1.1vw',
     width: 'auto',
   },
-  infoText: {
+  cartInfoText: {
     float: 'right',
   },
-};
+  toolBar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  rightDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  buttonDiv: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: 5,
+  },
+});
 
 function cText(e) {
   // const test = e.substr(4, 3);
@@ -107,14 +119,14 @@ class Navbar extends React.Component {
     currencyRate: Object,
   };
   state = {
-    isMenuDrawerOpen: false,
+    // isMenuDrawerOpen: false,
     isCategoryDrawerOpen: false,
     isDialogOpen: false,
     width: 0,
     cartItemBadge: 0,
   };
 
-  static getDerivedStateFromProps(nextP, PrevS) {
+  static getDerivedStateFromProps(nextP) {
     if (!nextP.cartItems) return null;
     return {
       cartItemBadge: nextP.cartItems.length,
@@ -136,49 +148,48 @@ class Navbar extends React.Component {
       [side]: open,
     });
   };
-  handleUpdateCartItem = (action, i, q) => () => {
+  handleUpdateCartItem = (action, i, q, s) => () => {
     switch (action) {
       case 'decrease':
-        this.props.updateCartItem(i, 'itemQuantity', q - 1);
+        this.props.updateCartItem(i, 'itemQuantity', q - 1, s);
         return;
       case 'increase':
-        this.props.updateCartItem(i, 'itemQuantity', q + 1);
+        this.props.updateCartItem(i, 'itemQuantity', q + 1, s);
         return;
       case 'remove':
-        this.props.removeCartItem(i);
+        this.props.removeCartItem(i, s);
         break;
       default:
     }
   };
   renderDialog = () => {
-    const { cartItems } = this.props;
+    const { cartItems, classes, currencyRate } = this.props;
+    const { isDialogOpen } = this.state;
     return (
       <Dialog
-        open={this.state.isDialogOpen}
+        open={isDialogOpen}
         keepMounted
         onClose={this.toggleModal('isDialogOpen', false)}
-        style={{ float: 'right' }}
       >
         <DialogTitle> User Cart Items </DialogTitle>
         <DialogContent>
           {cartItems.map(e => (
             <div key={`${e.itemId}-${e.itemSize}`}>
               <img style={{ width: 60 }} src={e.itemImg} alt="" />
-              <div className={this.props.classes.infoText}>
+              <div className={classes.cartInfoText}>
                 <Typography>{`${e.itemGender}'s ${e.itemName}`}</Typography>
                 <Typography>
                   {`Màu sắc/Size/Số lượng: ${e.itemColor}/${e.itemSize}/${
                     e.itemQuantity
                   } - Giá tiền: ${formatMoney(
-                    e.itemQuantity *
-                      this.props.currencyRate.sellRate *
-                      e.itemPrice
+                    e.itemQuantity * currencyRate.sellRate * e.itemPrice
                   )}`}
                   <button
                     onClick={this.handleUpdateCartItem(
                       'decrease',
                       e.itemId,
-                      e.itemQuantity
+                      e.itemQuantity,
+                      e.itemSize
                     )}
                   >
                     -
@@ -187,13 +198,19 @@ class Navbar extends React.Component {
                     onClick={this.handleUpdateCartItem(
                       'increase',
                       e.itemId,
-                      e.itemQuantity
+                      e.itemQuantity,
+                      e.itemSize
                     )}
                   >
                     +
                   </button>
                   <button
-                    onClick={this.handleUpdateCartItem('remove', e.itemId)}
+                    onClick={this.handleUpdateCartItem(
+                      'remove',
+                      e.itemId,
+                      null,
+                      e.itemSize
+                    )}
                   >
                     X
                   </button>
@@ -201,29 +218,23 @@ class Navbar extends React.Component {
               </div>
             </div>
           ))}
-          <div style={{ float: 'right' }}>
-            {cartItems.length > 0
-              ? `Total Price: ${formatMoney(
-                  cartItems.reduce(
-                    (a, c) =>
-                      a +
-                      c.itemPrice *
-                        this.props.currencyRate.sellRate *
-                        c.itemQuantity,
-                    0
-                  )
-                )}`
-              : 'You have not choose an item'}
+          <Typography variant="title" align="right">{`Thành tiền: ${formatMoney(
+            cartItems.reduce(
+              (a, c) =>
+                a + c.itemPrice * currencyRate.sellRate * c.itemQuantity,
+              0
+            )
+          )}`}</Typography>
+          <div className={classes.buttonDiv}>
             {cartItems.length > 0 && (
               <Button
                 variant="raised"
                 color="primary"
                 component={Link}
                 to="/checkout"
-                className={this.props.classes.titleLink}
                 onClick={this.toggleModal('isDialogOpen', false)}
               >
-                Checkout
+                Thanh toán
               </Button>
             )}
           </div>
@@ -231,20 +242,20 @@ class Navbar extends React.Component {
       </Dialog>
     );
   };
-  renderMenuDrawer = () => (
-    <Drawer
-      anchor="right"
-      transitionDuration={300}
-      open={this.state.isMenuDrawerOpen}
-      onClose={this.toggleModal('isMenuDrawerOpen', false)}
-    >
-      <List onClick={this.toggleModal('isMenuDrawerOpen', false)}>
-        {mailFolderListItems}
-      </List>
-      <Divider />
-      <List>{otherMailFolderListItems}</List>
-    </Drawer>
-  );
+  // renderMenuDrawer = () => (
+  //   <Drawer
+  //     anchor="right"
+  //     transitionDuration={300}
+  //     open={this.state.isMenuDrawerOpen}
+  //     onClose={this.toggleModal('isMenuDrawerOpen', false)}
+  //   >
+  //     <List onClick={this.toggleModal('isMenuDrawerOpen', false)}>
+  //       {mailFolderListItems}
+  //     </List>
+  //     <Divider />
+  //     <List>{otherMailFolderListItems}</List>
+  //   </Drawer>
+  // );
   renderCategoryDrawer = () => {
     const category = this.props.productList.reduce(
       (a, c) =>
@@ -260,7 +271,7 @@ class Navbar extends React.Component {
         onClose={this.toggleModal('isCategoryDrawerOpen', false)}
       >
         <List onClick={this.toggleModal('isCategoryDrawerOpen', false)}>
-          {data.navBar.map(e => (
+          {navBar.map(e => (
             <React.Fragment key={e.id}>
               <ListItem button component={Link} to={e.url}>
                 <ListItemText primary={e.title.toUpperCase()} />
@@ -296,63 +307,87 @@ class Navbar extends React.Component {
       </Drawer>
     );
   };
+  renderSnackBar = () => {
+    const { isOpen, text, key } = this.props.siteStatus;
+    return (
+      <Snackbar
+        key={key}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={isOpen}
+        autoHideDuration={3000}
+        onClose={() => this.props.toggleSnackbar(false)}
+        SnackbarContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={<span id="message-id">{text}</span>}
+      />
+    );
+  };
   render() {
     const { classes } = this.props;
     return (
       <React.Fragment>
         <AppBar position="static" className={classes.appBar}>
-          <Toolbar>
-            <Link to="/" className={classes.titleLink}>
+          <Toolbar className={classes.toolBar}>
+            <Link to="/">
               <img
                 style={{ width: '65%' }}
-                src="https://base-ec2.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif"
+                src={resizeImg(
+                  'https://base-ec2if.akamaized.net/images/user/logo/033815c0249a9cdcd34eaf53bed282b5.gif',
+                  375
+                )}
                 alt=""
               />
             </Link>
-            {this.state.width > 800 &&
-              data.navBar.map(e => (
-                <Button
-                  key={e.id}
-                  size="large"
-                  className={classes.titleLink}
-                  component={e.title !== 'category' ? Link : Button}
-                  to={e.url}
-                  onClick={c =>
-                    e.title === 'category'
-                      ? this.toggleModal('isCategoryDrawerOpen', true)()
-                      : c
-                  }
-                >
-                  <Typography variant="headline" className={classes.titleText}>
-                    {e.title.toUpperCase()}
-                  </Typography>
-                </Button>
-              ))}
-            <IconButton
-              className={classes.cartButton}
-              color="inherit"
-              aria-label="Cart"
-              onClick={this.toggleModal('isDialogOpen', true)}
-            >
-              <Badge badgeContent={this.state.cartItemBadge} color="error">
-                <ShoppingCart style={styles.iconSize} />
-              </Badge>
-            </IconButton>
-            {this.state.width <= 800 && (
+            <div>
+              {this.state.width > 995 &&
+                navBar.map(e => (
+                  <Button
+                    key={e.id}
+                    size="large"
+                    color="inherit"
+                    component={e.title !== 'category' ? Link : Button}
+                    to={e.url}
+                    onClick={c =>
+                      e.title === 'category'
+                        ? this.toggleModal('isCategoryDrawerOpen', true)()
+                        : c
+                    }
+                  >
+                    <Typography variant="title" className={classes.titleText}>
+                      {e.title.toUpperCase()}
+                    </Typography>
+                  </Button>
+                ))}
               <IconButton
-                className={classes.menuButton}
+                className={classes.cartButton}
                 color="inherit"
-                aria-label="Menu"
-                onClick={this.toggleModal('isCategoryDrawerOpen', true)}
+                aria-label="Cart"
+                onClick={this.toggleModal('isDialogOpen', true)}
               >
-                <MenuIcon style={styles.iconSizeMenu} />
+                <Badge badgeContent={this.state.cartItemBadge} color="error">
+                  <ShoppingCart style={styles.iconSize} />
+                </Badge>
               </IconButton>
-            )}
+              {this.state.width <= 995 && (
+                <IconButton
+                  color="inherit"
+                  aria-label="Menu"
+                  onClick={this.toggleModal('isCategoryDrawerOpen', true)}
+                >
+                  <MenuIcon style={styles.iconSizeMenu} />
+                </IconButton>
+              )}
+            </div>
           </Toolbar>
         </AppBar>
         {/* {this.renderMenuDrawer()} */}
         {this.renderDialog()}
         {this.renderCategoryDrawer()}
+        {this.renderSnackBar()}
       </React.Fragment>
     );
   }
@@ -360,13 +395,16 @@ class Navbar extends React.Component {
 
 const mapStateToProps = state => ({
   cartItems: state.userCartItems,
-  currencyRate: state.currencyRates[0],
+  currencyRate: state.currencyRates.find(e => e.currencyCode === 'JPY'),
   productList: state.productList,
+  siteStatus: state.siteStatus,
 });
-const mapDispathToProps = dispatch => ({
-  updateCartItem: (i, v, k) => dispatch(updateCartItem(i, v, k)),
-  removeCartItem: i => dispatch(removeCartItem(i)),
-});
+const mapDispathToProps = {
+  updateCartItem,
+  removeCartItem,
+  addSiteStatus,
+  toggleSnackbar,
+};
 
 export default connect(mapStateToProps, mapDispathToProps)(
   withStyles(styles)(Navbar)

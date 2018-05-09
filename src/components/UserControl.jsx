@@ -1,7 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import classNames from 'classnames';
-import { withStyles } from 'material-ui/styles';
+import Button from 'material-ui/Button';
+import Dialog, {
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import { FormControl } from 'material-ui/Form';
+import IconButton from 'material-ui/IconButton';
+import { MenuItem } from 'material-ui/Menu';
+import Paper from 'material-ui/Paper';
+import Select from 'material-ui/Select';
 import Table, {
   TableBody,
   TableCell,
@@ -11,27 +21,14 @@ import Table, {
   TableSortLabel,
 } from 'material-ui/Table';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
-import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import Typography from 'material-ui/Typography';
+import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
-import { fakeOrders } from '../data';
-import Button from 'material-ui/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
-import { MenuItem } from 'material-ui/Menu';
-import Select from 'material-ui/Select';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { SERVER_SETTING } from '../ultis';
 import { updateOrderData } from '../redux/actionCreators';
-import { FormControl } from 'material-ui/Form'
 
 const columnData = [
   {
@@ -233,8 +230,8 @@ class UserControl extends Component {
     isSaving: false, // check if the server is savign data, and prevent any type of change. make sure it is a uniprocess
   };
   componentDidMount() {
-    const { protocol, url, port } = SERVER_SETTING;
-    fetch(`${protocol}${url}:${port}/peak-vn/ecsite/order`)
+    const { protocol, url } = SERVER_SETTING;
+    fetch(`${protocol}${url}/peak-vn/ecsite/order`)
       .then(rs => rs.json())
       .then(d => {
         this.setState({ data: d.data.sort((a, b) => a.orderId - b.orderId) });
@@ -308,9 +305,9 @@ class UserControl extends Component {
                 dialogData._id
               )}
             >
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="Finished">Finished</MenuItem>
-          </Select>
+              <MenuItem value="Pending">Pending</MenuItem>
+              <MenuItem value="Finished">Finished</MenuItem>
+            </Select>
           </FormControl>
           {dialogData.orderItems &&
             dialogData.orderItems.map(e => (

@@ -1,13 +1,27 @@
 .pp_up {
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   text-align: center;
   &:before &:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     display: inline-block;
     width: 45px;
     height: 1px;
     background-color: #1a0f354d;
+  }
+}
+a {
+  color: white !important;
+  text-decoration: none !important;
+  &:hover {
+    color: #afafaf !important;
+  }
+  &:focus {
+    border: none !important;
+    outline: none !important;
+  }
+  &:visited &:active {
+    color: inherit !important;
   }
 }

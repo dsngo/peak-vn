@@ -37,6 +37,7 @@ const ProductCard = ({ classes, productItem, currencyRate }) => (
       focusRipple
       className={classes.image}
       component={Link}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       to={`/items/${productItem.productId}`}
       style={{ outline: 'none', textDecoration: 'none' }}
     >
@@ -76,7 +77,7 @@ const ProductCard = ({ classes, productItem, currencyRate }) => (
 );
 
 const mapStateToProps = state => ({
-  currencyRate: state.currencyRates[0],
+  currencyRate: state.currencyRates.find(e => e.currencyCode === 'JPY'),
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(ProductCard));

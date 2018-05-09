@@ -1,88 +1,121 @@
-// const testCartData = [
-//   {
-
-//   }
-// ]
-import { SERVER_SETTING, saveLocalState } from '../ultis';
+import { SERVER_SETTING, saveProductList, saveCurrencyRate } from '../ultis';
 
 export const addCartItem = addedItem => ({ type: 'ADD_CART_ITEM', addedItem });
 
-export const updateCartItem = (itemId, key, val) => ({
+export const updateCartItem = (itemId, key, val, itemSize) => ({
   type: 'UPDATE_CART_ITEM',
   itemId,
   key,
   val,
+  itemSize,
 });
 
-export const removeCartItem = itemId => ({ type: 'REMOVE_CART_ITEM', itemId });
+export const removeCartItem = (itemId, itemSize) => ({
+  type: 'REMOVE_CART_ITEM',
+  itemId,
+  itemSize,
+});
 export const clearCartItem = () => ({ type: 'CLEAR_CART_ITEM' });
 
-export const updateSiteStatus = newStatus => ({
-  type: 'UPDATE_SITE_STATUS',
-  newStatus,
-});
-
-export const saveOrderToDatabase = () => {};
-export const updateOrderData = (objectId, updatedData) => dispatch => {
-  const { protocol, url, port } = SERVER_SETTING;
-  return fetch(
-    `${protocol}${url}:${port}/peak-vn/ecsite/order/${objectId}/update`,
-    {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    }
-  )
-    .then(rs => rs.json())
-    .then(d => {
-      dispatch({ type: 'UPDATE_ORDER_DATA' });
-    })
-    .catch(console.log);
-};
-
-export const fetchCurrencyRate = () => dispatch => {
-  fetch('https://www.vietcombank.com.vn/ExchangeRates/ExrateXML.aspx', {
-    mode: 'no-cors',
-  })
-    .then(rs => rs.text())
-    .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
-    .then(data =>
-      dispatch({
-        type: 'FETCH_CURRENCY_RATE',
-        rate: Array.from(data.getElementsByTagName('Exrate')),
-      })
-    );
-};
-export const fetchProductList = () => async dispatch => {
-  try {
-    const sessionProductList = sessionStorage.getItem('peakVnProductList');
-    if (sessionProductList != null) return;
-    const productList = (await (await fetch(
-      `${SERVER_SETTING.protocol}${SERVER_SETTING.url}:${
-        SERVER_SETTING.port
-      }/peak-vn/ecsite/product`
-    )).json()).data;
-    dispatch({ type: 'FETCH_PRODUCT_LIST', productList });
-    saveLocalState({ productList });
-    console.log('save local')
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const fetchDatabase = userID => {
-  const fetchedData = [];
-  const siteStatus = '';
+export const addSiteStatus = statusText => {
+  const newStatus = {
+    key: Date.now(),
+    text: statusText,
+    isOpen: true,
+  };
   return {
-    type: 'FETCH_DATABASE',
-    fetchedData,
-    siteStatus,
+    type: 'ADD_SITE_STATUS',
+    newStatus,
   };
 };
-export const saveDatabase = userId => {
-  const siteStatus = 'Done';
-  return { type: 'SAVE_DATABASE', siteStatus };
+
+export const toggleSnackbar = isOpen => ({
+  type: 'TOGGLE_SNACKBAR',
+  isOpen,
+});
+
+// API
+export const saveContactToDatabase = contact => dispatch => {
+  const { protocol, url } = SERVER_SETTING;
+  fetch(`${protocol}${url}/peak-vn/ecsite/contact/add-new-contact`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(contact),
+  })
+    .then(() =>
+      dispatch(addSiteStatus('Yêu cầu của bạn đã được gửi thành công'))
+    )
+    .catch(() =>
+      dispatch(addSiteStatus('Lỗi kết nối, xin vui lòng thử lại sau'))
+    );
+};
+export const updateOrderData = (objectId, updatedData) => dispatch => {
+  const { protocol, url } = SERVER_SETTING;
+  return fetch(`${protocol}${url}/peak-vn/ecsite/order/${objectId}/update`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedData),
+  })
+    .then(rs => rs.json())
+    .then(d => {
+      dispatch(addSiteStatus(d.message));
+    })
+    .catch(() =>
+      dispatch(addSiteStatus('Lỗi kết nối, xin vui lòng thử lại sau'))
+    );
+};
+export const fetchCurrencyRate = () => (dispatch, getState) => {
+  if (getState().currencyRates.length > 1) return;
+  dispatch({ type: 'STARTING_FETCH_CURRENCY' });
+  const { protocol, url } = SERVER_SETTING;
+  fetch(`${protocol}${url}/peak-vn/ecsite/fetch/currency-rate`)
+    .then(rs => rs.json())
+    .then(rates => {
+      dispatch({
+        type: 'FETCH_CURRENCY_RATE_SUCCESS',
+        rates,
+      });
+      saveCurrencyRate({ currencyRates: rates });
+    })
+    .catch(e => {
+      dispatch({ type: 'FETCH_CURRENCY_RATE_FAILED' });
+      console.log(e);
+    });
+};
+export const fetchProductList = () => (dispatch, getState) => {
+  if (getState().productList.length > 0) return;
+  dispatch({ type: 'STARTING_FETCH_PRODUCTLIST' });
+  const { protocol, url } = SERVER_SETTING;
+  fetch(`${protocol}${url}/peak-vn/ecsite/product`)
+    .then(rs => rs.json())
+    .then(d => {
+      dispatch({ type: 'FETCH_PRODUCT_LIST_SUCCESS', productList: d.data });
+      saveProductList({ productList: d.data });
+    })
+    .catch(e => {
+      dispatch({ type: 'FETCH_PRODUCT_LIST_FAILED' });
+      console.log(e);
+    });
+};
+
+export const saveOrderToDatabase = order => dispatch => {
+  const { protocol, url } = SERVER_SETTING;
+  fetch(`${protocol}${url}/peak-vn/ecsite/order/add-new-order`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(order),
+  })
+    .then(() => dispatch(addSiteStatus('Tạo đơn hàng thành công')))
+    .catch(() =>
+      dispatch(addSiteStatus('Lỗi kết nối, xin vui lòng thử lại sau'))
+    );
 };

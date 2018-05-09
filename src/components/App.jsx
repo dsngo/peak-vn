@@ -1,5 +1,4 @@
 import blueGrey from 'material-ui/colors/blueGrey';
-import green from 'material-ui/colors/green';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import React from 'react';
 import Router from 'react-router-dom/es/BrowserRouter';
@@ -20,8 +19,10 @@ import AllProduct from './AllProduct'
 
 const theme = createMuiTheme({
   palette: {
-    primary: blueGrey,
-    secondary: green,
+    primary: {
+      main: '#282E3B',
+    },
+    secondary: blueGrey,
   },
   typography: {
     // In Japanese the characters are usually larger.
@@ -43,15 +44,6 @@ const App = () => (
         <Route exact path="/about" component={About} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/complete" component={CompletePayment} />
-        {/* <Route path="/collections" component={Collection} />
-              <Route
-                path="/products/:id"
-                component={props => {
-                  console.log(props);
-                  return <ProductShow productPermalink={props.match.params.id} />;
-                }}
-              />
-              <Route component={FoF} /> */}
       </Switch>
       <Footer />
     </MuiThemeProvider>

@@ -15,7 +15,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: 'center',
   },
   gridContainer: {
-    margin: '15px 0'
+    margin: '15px 0',
   },
 };
 

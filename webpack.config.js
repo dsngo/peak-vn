@@ -6,7 +6,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // Initial configurations
-const pageTitle = 'Multiple Choices - Site';
+const pageTitle = 'PEAK EIGHT FASHION';
 // PATH configurations
 const PATH = {
   app: join(__dirname, 'app'),
@@ -112,10 +112,10 @@ module.exports = (env = {}) => {
       publicPath: '/',
     };
     bundleConfig.stats = 'normal';
-    bundleConfig.resolve.alias = {
-      react: 'preact-compat',
-      'react-dom': 'preact-compat',
-    };
+    // bundleConfig.resolve.alias = {
+    //   react: 'preact-compat',
+    //   'react-dom': 'preact-compat',
+    // };
     bundleConfig.optimization = {
       splitChunks: {
         cacheGroups: {
