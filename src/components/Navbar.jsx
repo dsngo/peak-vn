@@ -1,16 +1,21 @@
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import AppBar from 'material-ui/AppBar';
-import Badge from 'material-ui/Badge';
-import Button from 'material-ui/Button';
-import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Snackbar from 'material-ui/Snackbar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Snackbar from '@material-ui/core/Snackbar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
@@ -81,6 +86,9 @@ const styles: React.CSSProperties = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: 5,
+  },
+  iconSize: {
+    width: 15,
   },
 });
 
@@ -242,21 +250,8 @@ class Navbar extends React.Component {
       </Dialog>
     );
   };
-  // renderMenuDrawer = () => (
-  //   <Drawer
-  //     anchor="right"
-  //     transitionDuration={300}
-  //     open={this.state.isMenuDrawerOpen}
-  //     onClose={this.toggleModal('isMenuDrawerOpen', false)}
-  //   >
-  //     <List onClick={this.toggleModal('isMenuDrawerOpen', false)}>
-  //       {mailFolderListItems}
-  //     </List>
-  //     <Divider />
-  //     <List>{otherMailFolderListItems}</List>
-  //   </Drawer>
-  // );
   renderCategoryDrawer = () => {
+    const { classes } = this.props;
     const category = this.props.productList.reduce(
       (a, c) =>
         a.includes(c.productCode.substr(4, 3))
@@ -288,19 +283,25 @@ class Navbar extends React.Component {
               target="_blank"
               href="https://www.facebook.com/PeaksEight"
             >
-              <ListItemIcon>
-                <img src="/assets/icons/facebook-f.svg" alt="" />
-              </ListItemIcon>
+              <img
+                className={classes.iconSize}
+                src="/assets/icons/facebook-f.svg"
+                alt=""
+              />
             </IconButton>
             <IconButton target="_blank" href="https://twitter.com/peaks_eight">
-              <ListItemIcon>
-                <img src="/assets/icons/twitter.svg" alt="" />
-              </ListItemIcon>
+              <img
+                className={classes.iconSize}
+                src="/assets/icons/twitter.svg"
+                alt=""
+              />
             </IconButton>
             <IconButton target="_blank" href="http://instagram.com/peaks_eight">
-              <ListItemIcon>
-                <img src="/assets/icons/instagram.svg" alt="" />
-              </ListItemIcon>
+              <img
+                className={classes.iconSize}
+                src="/assets/icons/instagram.svg"
+                alt=""
+              />
             </IconButton>
           </ListItem>
         </List>
@@ -319,9 +320,6 @@ class Navbar extends React.Component {
         open={isOpen}
         autoHideDuration={3000}
         onClose={() => this.props.toggleSnackbar(false)}
-        SnackbarContentProps={{
-          'aria-describedby': 'message-id',
-        }}
         message={<span id="message-id">{text}</span>}
       />
     );

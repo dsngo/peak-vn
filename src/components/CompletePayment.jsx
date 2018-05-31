@@ -1,7 +1,7 @@
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {

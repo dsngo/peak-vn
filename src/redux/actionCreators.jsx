@@ -37,7 +37,7 @@ export const toggleSnackbar = isOpen => ({
 // API
 export const saveContactToDatabase = contact => dispatch => {
   const { protocol, url } = SERVER_SETTING;
-  fetch(`${protocol}${url}/peak-vn/ecsite/contact/add-new-contact`, {
+  fetch(`${protocol}${url}/peak-vn/ecsite/contact`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -54,7 +54,7 @@ export const saveContactToDatabase = contact => dispatch => {
 };
 export const updateOrderData = (objectId, updatedData) => dispatch => {
   const { protocol, url } = SERVER_SETTING;
-  return fetch(`${protocol}${url}/peak-vn/ecsite/order/${objectId}/update`, {
+  return fetch(`${protocol}${url}/peak-vn/ecsite/order/${objectId}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -106,7 +106,7 @@ export const fetchProductList = () => (dispatch, getState) => {
 
 export const saveOrderToDatabase = order => dispatch => {
   const { protocol, url } = SERVER_SETTING;
-  fetch(`${protocol}${url}/peak-vn/ecsite/order/add-new-order`, {
+  fetch(`${protocol}${url}/peak-vn/ecsite/order`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -115,6 +115,24 @@ export const saveOrderToDatabase = order => dispatch => {
     body: JSON.stringify(order),
   })
     .then(() => dispatch(addSiteStatus('Tạo đơn hàng thành công')))
+    .catch(() =>
+      dispatch(addSiteStatus('Lỗi kết nối, xin vui lòng thử lại sau'))
+    );
+};
+export const saveSurveyToDatabase = survey => dispatch => {
+  const { protocol, url } = SERVER_SETTING;
+  // console.log(survey)
+  fetch(`${protocol}${url}/peak-vn/ecsite/survey-submit`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(survey),
+  })
+    .then(() =>
+      dispatch(addSiteStatus('Cảm ơn bạn đã tham gia khảo sát với chúng tôi'))
+    )
     .catch(() =>
       dispatch(addSiteStatus('Lỗi kết nối, xin vui lòng thử lại sau'))
     );

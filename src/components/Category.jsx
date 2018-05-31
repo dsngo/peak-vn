@@ -1,9 +1,9 @@
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { productList } from '../data';
 import ProductCard from './ProductCard';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
+import connect from 'react-redux/es/connect/connect';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -12,7 +12,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     margin: '0.2vw 1.1vw',
   },
   gridContainer: {
-    margin: '15px 0'
+    margin: '15px 0',
   },
 };
 
@@ -30,4 +30,7 @@ const Category = ({ classes, match }) => (
     </Grid>
   </Paper>
 );
-export default withStyles(styles)(Category);
+const mapStateToProps = state => ({
+  productList: state.productList,
+});
+export default connect(mapStateToProps)(withStyles(styles)(Category));

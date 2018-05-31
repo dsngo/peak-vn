@@ -1,10 +1,10 @@
-import { Typography } from 'material-ui';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { productList } from '../data';
 import ProductCard from './ProductCard';
+import connect from 'react-redux/es/connect/connect';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -51,4 +51,7 @@ const AllProduct = ({ classes }) => (
     ))}
   </Paper>
 );
-export default withStyles(styles)(AllProduct);
+const mapStateToProps = state => ({
+  productList: state.productList,
+});
+export default connect(mapStateToProps)(withStyles(styles)(AllProduct));

@@ -1,6 +1,6 @@
-import blueGrey from 'material-ui/colors/blueGrey';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import React from 'react';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import React, { Fragment } from 'react';
 import Router from 'react-router-dom/es/BrowserRouter';
 import Route from 'react-router-dom/es/Route';
 import Switch from 'react-router-dom/es/Switch';
@@ -15,7 +15,8 @@ import Category from './Category';
 import About from './About';
 import Contact from './Contact';
 import CompletePayment from './CompletePayment';
-import AllProduct from './AllProduct'
+import AllProduct from './AllProduct';
+import SurveyPage from './SurveyPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,28 +25,31 @@ const theme = createMuiTheme({
     },
     secondary: blueGrey,
   },
-  typography: {
-    // In Japanese the characters are usually larger.
-    fontSize: 18,
-  },
 });
+
+const App1 = () => (
+  <Fragment>
+    <Navbar />
+    <Route exact path="/" component={Landing} />
+    <Route path="/items/:productId" component={ProductDetail} />
+    <Route exact path="/admin/orderdetail" component={UserControl} />
+    <Route path="/checkout" component={Checkout} />
+    <Route path="/category/:categoryId" component={Category} />
+    <Route exact path="/category" component={AllProduct} />
+    <Route exact path="/about" component={About} />
+    <Route exact path="/contact" component={Contact} />
+    <Route exact path="/complete" component={CompletePayment} />
+    <Footer />
+  </Fragment>
+);
 
 const App = () => (
   <Router>
     <MuiThemeProvider theme={theme}>
-      <Navbar />
       <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route path="/items/:productId" component={ProductDetail} />
-        <Route exact path="/admin/orderdetail" component={UserControl} />
-        <Route path="/checkout" component={Checkout} />
-        <Route path="/category/:categoryId" component={Category} />
-        <Route exact path="/category" component={AllProduct} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/contact" component={Contact} />
-        <Route exact path="/complete" component={CompletePayment} />
+        <Route exact path="/survey" component={SurveyPage} />
+        <Route component={App1} />
       </Switch>
-      <Footer />
     </MuiThemeProvider>
   </Router>
 );

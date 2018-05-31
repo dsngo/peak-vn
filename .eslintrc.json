@@ -36,8 +36,9 @@
       "specialLink": [ "to" ]
     }],
     "react/prefer-stateless-function": [1],
-    "import/prefer-default-export": [1],
+    "import/prefer-default-export": [0],
     "no-unused-vars": [1],
+    "no-nested-ternary": [0],
     "react/sort-comp": [
       1,
       {

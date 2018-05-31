@@ -1,7 +1,7 @@
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import { withStyles } from 'material-ui/styles';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { connect } from 'react-redux';
 import { addSiteStatus, saveContactToDatabase } from '../redux/actionCreators';

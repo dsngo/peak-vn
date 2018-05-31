@@ -1,13 +1,11 @@
-import Button from 'material-ui/Button';
-import ButtonBase from 'material-ui/ButtonBase';
-import IconButton from 'material-ui/IconButton';
-import { ListItemIcon } from 'material-ui/List';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
+import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import connect from 'react-redux/es/connect/connect';
 import { resizeImg } from '../ultis';
 
 const styles: React.CSSProperties = theme => ({
@@ -17,7 +15,7 @@ const styles: React.CSSProperties = theme => ({
     background: `linear-gradient(45deg, ${theme.palette.primary.dark} 35%, ${
       theme.palette.primary.main
     } 95%)`,
-    padding: '.1vw',
+    padding: '.1vw .1vw 5px',
     margin: '0 1vw 1vw',
     color: theme.palette.primary.contrastText,
   },
@@ -46,6 +44,7 @@ const styles: React.CSSProperties = theme => ({
     width: '40vw',
   },
   button: {
+    width: 15,
     filter: 'invert(1)',
     '&:hover': { filter: 'invert(.5)' },
   },
@@ -55,6 +54,10 @@ const styles: React.CSSProperties = theme => ({
   text2: {
     color: 'white',
   },
+  img: {
+    width: "100%",
+    margin: 5,
+  }
 });
 
 const Footer = ({ classes }) => (
@@ -62,7 +65,7 @@ const Footer = ({ classes }) => (
     <div className={classes.container}>
       <div className={classes.divLeft}>
         <img
-          style={{ margin: 5 }}
+          className={classes.img}
           src={resizeImg(
             'https://base-ec2if.akamaized.net/images/user/template/peaks8-official-ec/image-footlogo_5ac348523a214.jpg',
             303
@@ -99,37 +102,31 @@ const Footer = ({ classes }) => (
             target="_blank"
             href="https://www.facebook.com/PeaksEight"
           >
-            <ListItemIcon>
-              <img
-                className={classes.button}
-                src="/assets/icons/facebook-f.svg"
-                alt=""
-              />
-            </ListItemIcon>
+            <img
+              className={classes.button}
+              src="/assets/icons/facebook-f.svg"
+              alt=""
+            />
           </IconButton>
           <IconButton target="_blank" href="https://twitter.com/peaks_eight">
-            <ListItemIcon>
-              <img
-                className={classes.button}
-                src="/assets/icons/twitter.svg"
-                alt=""
-              />
-            </ListItemIcon>
+            <img
+              className={classes.button}
+              src="/assets/icons/twitter.svg"
+              alt=""
+            />
           </IconButton>
           <IconButton target="_blank" href="http://instagram.com/peaks_eight">
-            <ListItemIcon>
-              <img
-                className={classes.button}
-                src="/assets/icons/instagram.svg"
-                alt=""
-              />
-            </ListItemIcon>
+            <img
+              className={classes.button}
+              src="/assets/icons/instagram.svg"
+              alt=""
+            />
           </IconButton>
         </div>
       </div>
     </div>
     <div className={classes.copyRight}>
-      <Typography align="center" color="inherit">
+      <Typography variant="caption" align="center" color="inherit">
         Copyright © Peaks Eight Co.,Ltd. All Rights Reserved.
       </Typography>
     </div>
@@ -139,4 +136,4 @@ Footer.propTypes = {
   classes: PropTypes.shape({}).isRequired,
 };
 
-export default connect()(withStyles(styles)(Footer));
+export default withStyles(styles)(Footer);

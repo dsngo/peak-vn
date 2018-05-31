@@ -1,77 +1,43 @@
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { connect } from 'react-redux';
-import Avatar from 'material-ui/Avatar';
-import ButtonBase from 'material-ui/ButtonBase';
-import Card, { CardContent, CardHeader, CardMedia } from 'material-ui/Card';
-import Grid from 'material-ui/Grid';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import red from 'material-ui/colors/red';
-import { withStyles } from 'material-ui/styles';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Grid from '@material-ui/core/Grid';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { withStyles } from '@material-ui/core/styles';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { capFirstChar, formatDate, resizeImg, formatMoney } from '../ultis';
+import { formatMoney, resizeImg } from '../ultis';
 
 const styles: { [key: string]: React.CSSProperties } = {
-  avatar: {
-    backgroundColor: red[500],
-  },
-  image: {
+  button: {
+    display: 'flex',
     '&:hover': {
       zIndex: 1,
       opacity: 0.75,
       transition: 'all .5s ease',
     },
   },
-  media: {
-    height: 120,
-  },
-  productCard: {
-    width: 200,
-    height: 275,
+  icon: {
+    marginRight: 5,
+    marginLeft: 5,
   },
 };
 const ProductCard = ({ classes, productItem, currencyRate }) => (
-  <Grid item xl={3}>
+  <Grid item md={3} xl={4}>
     <ButtonBase
+      className={classes.button}
       focusRipple
-      className={classes.image}
       component={Link}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       to={`/items/${productItem.productId}`}
-      style={{ outline: 'none', textDecoration: 'none' }}
     >
-      <Card className={classes.productCard}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              New
-            </Avatar>
-          }
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={productItem.productCode}
-          subheader={formatDate(productItem.listingDate)}
-        />
-        <CardMedia
-          className={classes.media}
-          image={resizeImg(productItem.productImg[0].url, 200)}
-          title={productItem.productName}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="button" component="p">
-            {formatMoney(productItem.productPrice * currencyRate.sellRate)}
-          </Typography>
-          <Typography variant="caption" component="p">{`${capFirstChar(
-            productItem.productGender
-          )}'s ${productItem.productCategory} - ${capFirstChar(
-            productItem.productColor
-          )}`}</Typography>
-        </CardContent>
-      </Card>
+      <img src={resizeImg(productItem.productImg[0].url, 200)} alt="" />
+      <GridListTileBar
+        actionIcon={<StarBorderIcon className={classes.icon} />}
+        actionPosition="left"
+        title={formatMoney(productItem.productPrice * currencyRate.sellRate)}
+        subtitle={`${productItem.productCategory}`}
+      />
     </ButtonBase>
   </Grid>
 );
