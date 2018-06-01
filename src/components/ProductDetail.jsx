@@ -325,11 +325,11 @@ class Product extends Component {
                       <Typography
                         className={classes.extra}
                         variant="title"
+                        handle
                       >{`Kích thước: ${e.name.toUpperCase()}`}</Typography>
                       <Typography>Đơn vị: cm</Typography>
-                      {}
                       <Typography>
-                        Số đo: {spec.map(s => `[: ${e[s]}] `)}
+                        Số đo: {spec.map(s => `[${s}: ${e[s]}] `)}
                       </Typography>
                     </React.Fragment>
                   );

@@ -149,7 +149,12 @@ class Question extends Component {
     if (id === 15) {
       this.props.handleFinish({ name, ...this.state, id })();
     }
-    this.props.handleNext({ name, ...this.state, id })();
+    this.props.handleNext({
+      name,
+      ...this.state,
+      step: name.substr(-1, 1) === 'A' ? 2 : this.state.step,
+      id,
+    })();
   };
   render() {
     const { classes, question, handleBack } = this.props;
@@ -163,7 +168,7 @@ class Question extends Component {
         <div>
           <Button
             disabled={question.id === 1}
-            onClick={handleBack(question.name.substr(-1, 1) === 'B' ? 2 : 1)}
+            onClick={handleBack}
             className={classes.button}
           >
             Back
@@ -171,7 +176,11 @@ class Question extends Component {
           <Button
             variant="raised"
             color="primary"
-            onClick={this.handleNext(question.id, question.name)}
+            onClick={this.handleNext(
+              question.id,
+              question.name,
+              question.name.substr(-1, 1) === 'A' ? 2 : 1
+            )}
             className={classes.button}
           >
             {question.id === 15 ? 'Finish' : 'Next'}
@@ -198,8 +207,8 @@ class Survey extends React.Component {
     }));
   };
 
-  handleBack = step => () => {
-    this.setState(pS => ({ ...pS, activeStep: pS.activeStep - step }));
+  handleBack = () => {
+    this.setState(pS => ({ ...pS, activeStep: pS.activeStep - 1 }));
   };
 
   handleReset = () => {

@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import Product from './Product';
+import Product from './SurveyProduct';
 import Survey from './Survey';
 import { fetchProductList, fetchCurrencyRate } from '../redux/actionCreators';
 

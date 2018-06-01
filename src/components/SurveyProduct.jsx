@@ -4,19 +4,19 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
-import ProductCard from './ProductCard';
+import SurveyCard from './SurveyCard';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     padding: 5,
   },
 };
 
-const Product = ({ classes, productList }) => (
+const SurveyProduct = ({ classes, productList }) => (
   <Grid container spacing={8} className={classes.root}>
     {productList.length === 0 ? (
       <div>
@@ -33,7 +33,7 @@ const Product = ({ classes, productList }) => (
       </div>
     ) : (
       productList.map(productItem => (
-        <ProductCard key={productItem.productId} productItem={productItem} />
+        <SurveyCard key={productItem.productId} productItem={productItem} />
       ))
     )}
   </Grid>
@@ -42,4 +42,4 @@ const mapStateToProps = state => ({
   productList: state.productList,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Product));
+export default connect(mapStateToProps)(withStyles(styles)(SurveyProduct));
