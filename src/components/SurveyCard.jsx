@@ -1,16 +1,16 @@
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { formatMoney, resizeImg } from '../ultis';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -56,12 +56,11 @@ class SurveyCard extends React.Component {
     img: '',
   };
   toggleModal = key => () => {
-    console.log('modal');
     this.setState(pS => ({ [key]: !pS[key] }));
   };
   handleChangeImg = event => this.setState({ img: event.target.src });
   renderDialog = () => {
-    const { classes, currencyRate, productItem } = this.props;
+    const { classes, productItem } = this.props;
     const { dialogOpen, img } = this.state;
     const thumbnails = productItem.productImg.map(e => e.url);
     const bigImg = thumbnails.includes(img)
