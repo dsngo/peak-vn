@@ -28,7 +28,7 @@ const cat = [
   { id: 'ACL', name: 'Accessories Women' },
 ];
 
-const AllProduct = ({ classes }) => (
+const AllProduct = ({ classes, productList }) => (
   <Paper className={classes.root}>
     {cat.map(e1 => (
       <React.Fragment key={e1.id}>

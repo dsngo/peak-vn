@@ -398,6 +398,7 @@ const mapDispatchToProps = {
   updateOrderData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles)(UserControl)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(UserControl));

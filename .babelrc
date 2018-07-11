@@ -20,7 +20,7 @@
       "env",
       {
         "targets": {
-          "browsers": ["last 2 Chrome versions"]
+          "browsers": ["> 1%", "ie 10", "safari >= 7", "ios >= 7"]
         },
         "loose": true,
         "modules": false
@@ -32,6 +32,6 @@
     ["react-hot-loader/babel"],
     ["dynamic-import-webpack"],
     ["transform-class-properties"],
-    ["transform-object-rest-spread", {"useBuiltIns": true}]
+    ["transform-object-rest-spread"]
   ]
 }

@@ -8,7 +8,10 @@ export function formatDate(date) {
     month: '2-digit',
     year: '2-digit',
   };
-  return new Date(date).toLocaleString('vi-VN', dateOptions);
+  return new Date(date).toLocaleString(
+    'vi-VN',
+    dateOptions
+  );
 }
 
 export function resizeImg(url, width) {

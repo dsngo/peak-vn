@@ -10,7 +10,6 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -57,6 +56,7 @@ const styles: React.CSSProperties = theme => ({
   },
   iconSize: {
     fontSize: 24,
+    width: 15,
   },
   titleText: {
     fontWeight: 'bold',
@@ -67,7 +67,7 @@ const styles: React.CSSProperties = theme => ({
       theme.palette.primary.light
     } 95%)`,
     borderRadius: 2,
-    boxShadow: '0 3px 5px 2px #1a0f354d',
+    boxShadow: '0 3px 5px 2px rgba(26, 15, 53, 0.302)',
     margin: '0.2vw 1.1vw',
     width: 'auto',
   },
@@ -86,9 +86,6 @@ const styles: React.CSSProperties = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: 5,
-  },
-  iconSize: {
-    width: 15,
   },
 });
 
@@ -404,6 +401,7 @@ const mapDispathToProps = {
   toggleSnackbar,
 };
 
-export default connect(mapStateToProps, mapDispathToProps)(
-  withStyles(styles)(Navbar)
-);
+export default connect(
+  mapStateToProps,
+  mapDispathToProps
+)(withStyles(styles)(Navbar));

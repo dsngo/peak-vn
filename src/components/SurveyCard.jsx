@@ -124,7 +124,7 @@ class SurveyCard extends React.Component {
     );
   };
   render() {
-    const { classes, productItem, currencyRate } = this.props;
+    const { classes, productItem } = this.props;
     return (
       <Fragment>
         <Grid item xs={6} md={3} xl={2} className={classes.root}>
@@ -141,10 +141,8 @@ class SurveyCard extends React.Component {
             <GridListTileBar
               actionIcon={<StarBorderIcon className={classes.icon} />}
               actionPosition="left"
-              title={formatMoney(
-                productItem.productPrice * currencyRate.sellRate
-              )}
-              subtitle={`${productItem.productCategory}`}
+              title={formatMoney(productItem.productVnd)}
+              subtitle={`${productItem.productName}`}
             />
           </ButtonBase>
         </Grid>

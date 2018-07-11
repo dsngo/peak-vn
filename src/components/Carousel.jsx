@@ -1,8 +1,8 @@
 import { withStyles } from '@material-ui/core/styles';
 // import Carousel from 'nuka-carousel';
 import React from 'react';
-import { resizeImg } from '../ultis';
 import Slider from 'react-slick';
+import { resizeImg } from '../ultis';
 
 const styles: { [key: string]: React.CSSProperties } = {
   carousel: {

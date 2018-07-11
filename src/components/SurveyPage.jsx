@@ -31,6 +31,9 @@ const styles: { [key: string]: React.CSSProperties } = {
   column: {
     flexBasis: '33.33%',
   },
+  detail: {
+    justifyContent: 'center'
+  }
 };
 const createExpandable = (text, Elm) => (
   <ExpansionPanel defaultExpanded elevation={0}>
@@ -70,7 +73,7 @@ class SurveyPage extends Component {
               PRODUCTS
             </Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <ExpansionPanelDetails className={classes.detail}>
             <Product />
           </ExpansionPanelDetails>
           <ExpansionPanelActions>

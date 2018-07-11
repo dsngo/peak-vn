@@ -16,7 +16,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const Category = ({ classes, match }) => (
+const Category = ({ classes, match, productList }) => (
   <Paper className={classes.root}>
     <Grid
       container

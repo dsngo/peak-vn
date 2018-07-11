@@ -140,8 +140,15 @@ class Question extends Component {
         identifier.substr(0, 5) === 'radio'
           ? [val]
           : prevState.checked.includes(val)
-            ? prevState.checked.filter(e => e !== val)
-            : [...prevState.checked, val],
+            ? prevState.checked
+                .filter(e => e !== 'Không thích thương hiệu nào cả')
+                .filter(e => e !== val)
+            : [
+                ...prevState.checked.filter(
+                  e => e !== 'Không thích thương hiệu nào cả'
+                ),
+                val,
+              ],
     }));
   };
   handleText = event => this.setState({ text: event.target.value });

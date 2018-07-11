@@ -17,6 +17,7 @@ import Contact from './Contact';
 import CompletePayment from './CompletePayment';
 import AllProduct from './AllProduct';
 import SurveyPage from './SurveyPage';
+import ResultPage from './ResultPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,6 +40,7 @@ const App1 = () => (
     <Route exact path="/about" component={About} />
     <Route exact path="/contact" component={Contact} />
     <Route exact path="/complete" component={CompletePayment} />
+    <Route exact path="/survey-result-page" component={ResultPage} />
     <Footer />
   </Fragment>
 );

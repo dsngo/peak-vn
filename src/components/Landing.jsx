@@ -1,7 +1,13 @@
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import Carousel from './Carousel';
@@ -9,13 +15,6 @@ import News from './News';
 import Pickup from './Pickup';
 import Product from './Product';
 import { fetchProductList, fetchCurrencyRate } from '../redux/actionCreators';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Survey from './Survey';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Button from '@material-ui/core/Button';
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -59,9 +58,10 @@ class Landing extends Component {
     this.props.fetchCurrencyRate();
   }
   handleToggleProduct = () => {
-    this.setState(p=>({productTab: !p.productTab}))};
+    this.setState(p => ({ productTab: !p.productTab }));
+  };
   render() {
-    const { classes, productList } = this.props;
+    const { classes } = this.props;
     return (
       <Paper className={classes.root} elevation={4}>
         <Carousel />
@@ -70,7 +70,9 @@ class Landing extends Component {
         {createExpandable('NEWS', News)}
         <Divider className={classes.divider} />
         <ExpansionPanel expanded={this.state.productTab} elevation={0}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={this.handleToggleProduct} />}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon onClick={this.handleToggleProduct} />}
+          >
             <Typography variant="display1" component="h3">
               PRODUCTS
             </Typography>
@@ -100,4 +102,7 @@ const mapDispatchToProps = {
   fetchCurrencyRate,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Landing));
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(Landing));

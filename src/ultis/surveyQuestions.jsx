@@ -81,9 +81,21 @@ export const questions = [
     question:
       'Hãy cho biết những thương hiệu thời trang thể thao và thời trang thường ngày ưa thích của bạn? Và lí do tại sao mà bạn lại thích thương hiệu thời trang đó?',
     content: [
-      { type: 'radio', meta: 'Tên thương hiệu' },
-      { type: 'radio', meta: 'Lý do bạn thích thương hiệu đó' },
-      { type: 'radio-text', meta: 'Khác ()' },
+      { type: 'checkbox', meta: 'H&M' },
+      { type: 'checkbox', meta: 'ZARA' },
+      { type: 'checkbox', meta: 'GAP' },
+      { type: 'checkbox', meta: 'UNIQLO' },
+      { type: 'checkbox', meta: 'NIKE' },
+      { type: 'checkbox', meta: 'adidas' },
+      { type: 'checkbox', meta: 'Under Armor' },
+      { type: 'checkbox', meta: 'PUMA' },
+      { type: 'checkbox', meta: 'asics' },
+      { type: 'checkbox', meta: 'New balance' },
+      { type: 'checkbox', meta: 'umbro' },
+      { type: 'checkbox', meta: 'FILA' },
+      { type: 'checkbox', meta: 'Kappa' },
+      { type: 'checkbox', meta: 'Thương hiệu khác' },
+      { type: 'text', meta: 'Lý do bạn thích thương hiệu đó' },
       { type: 'radio', meta: 'Không thích thương hiệu nào cả' },
     ],
   },
@@ -142,7 +154,7 @@ export const questions = [
     id: 15,
     name: 'Câu 13',
     question:
-      'Hiện tại những sản phẩm được giới thiệu trong trang web này đang dự định bán tại thị trường Việt Nam. Trường hợp bạn muốn cập nhật thông tin mới nhất từ thương hiệu thời trang thể thao và thường ngày của công ty chúng tôi, vui lòng nhập địa chỉ email của bạn vào ô bên dưới, chúng tôi sẽ gửi những thông tin về sản phẩm mới nhất cho bạn.',
+      'Hiện tại những sản phẩm được giới thiệu trong trang web này đang dự định bán tại thị trường Việt Nam. Trường hợp bạn muốn cập nhật thông tin mới nhất từ thương hiệu thời trang thể thao và thường ngày của công ty chúng tôi, vui lòng nhập địa chỉ email của bạn vào ô bên dưới, chúng tôi sẽ gửi những thông tin về sản phẩm mới nhất cho bạn. Xin cảm ơn!',
     content: [
       { type: 'radio-text', meta: 'Địa chỉ email của bạn' },
       { type: 'radio', meta: 'Không có yêu cầu' },

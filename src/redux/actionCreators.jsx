@@ -95,8 +95,9 @@ export const fetchProductList = () => (dispatch, getState) => {
   fetch(`${protocol}${url}/peak-vn/ecsite/product`)
     .then(rs => rs.json())
     .then(d => {
-      dispatch({ type: 'FETCH_PRODUCT_LIST_SUCCESS', productList: d.data });
-      saveProductList({ productList: d.data });
+      const productList = d.data.sort((f, s) => f.productId - s.productId);
+      dispatch({ type: 'FETCH_PRODUCT_LIST_SUCCESS', productList });
+      saveProductList({ productList });
     })
     .catch(e => {
       dispatch({ type: 'FETCH_PRODUCT_LIST_FAILED' });
